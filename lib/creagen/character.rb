@@ -20,6 +20,11 @@ class Creagen::Character < Creagen::Creature
   def klass=(c)
 
     @kla = c
+
+    hd = c[:levels][level - 1][:hp]
+    r = Creagen.roll(hd)
+    r = r + con_mod * level
+    @hp = [ 1, r ].max
   end
 
   def pick_a_skill

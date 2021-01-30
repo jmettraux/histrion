@@ -12,6 +12,8 @@ class Creagen::Creature
   attr_accessor :strength, :constitution, :dexterity
   attr_accessor :intelligence, :wisdom, :charisma
 
+  attr_reader :hp
+
   attr_reader :skills
 
   alias str= strength=
@@ -108,6 +110,11 @@ class Creagen::Creature
   def shoot; @skills['Shoot'] || -2; end
   def punch; @skills['Punch'] || -2; end
 
+  def wp
+
+    (1 + [ 1, int_mod, wis_mod, cha_mod ].max) * level
+  end
+
   def to_table(opts={})
 
     Terminal::Table.new do |t|
@@ -135,12 +142,12 @@ class Creagen::Creature
         "STR  #{str_s} (#{str_mod_s})",
         '',
         skills[0],
-        rig("HP #{10}") ]
+        rig("HP #{hp}") ]
       t << [
         "CON  #{con_s} (#{con_mod_s})",
         "Physical #{phy_save}",
         skills[1],
-        @skills['Magic'] ? rig("WP #{10}") : '' ]
+        @skills['Magic'] ? rig("WP #{wp}") : '' ]
       t << [
         "DEX  #{dex_s} (#{dex_mod_s})",
         '',
