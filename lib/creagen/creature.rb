@@ -114,7 +114,7 @@ class Creagen::Creature
 
       t.style = { width: 64 }
 
-      m = @skills['Magic'] 
+      m = @skills['Magic']
       magic_skills = m ? [ "Magic-#{m}", nil ] : []
 
       skills =
@@ -140,7 +140,7 @@ class Creagen::Creature
         "CON  #{con_s} (#{con_mod_s})",
         "Physical #{phy_save}",
         skills[1],
-        rig("WP #{10}") ]
+        @skills['Magic'] ? rig("WP #{10}") : '' ]
       t << [
         "DEX  #{dex_s} (#{dex_mod_s})",
         '',
