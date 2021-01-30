@@ -62,3 +62,66 @@
   - Ride
   - Stab
   - Talk
+- :name: Religious
+  :free: Pray
+  :quick:
+  - Talk
+  - Know
+  :growth:
+  - "+1 Any Att"
+  - "+2 Physical"
+  - "+2 Mental"
+  - "+2 Mental"
+  - Connect
+  - Any Skill
+  :learning:
+  - Any Skill
+  - Connect
+  - Craft
+  - Know
+  - Perform
+  - Pray
+  - Talk
+  - Work
+- :name: Slave
+  :free: Work
+  :quick:
+  - Sneak
+  - Excert
+  :growth:
+  - "+1 Any Att"
+  - "+2 Physical"
+  - "+2 Physical"
+  - "+2 Any Att"
+  - Exert
+  - Any Skill
+  :learning:
+  - Any Combat
+  - Any Skill
+  - Connect
+  - Craft
+  - Exert
+  - Notice
+  - Sneak
+  - Work
+- :name: Wanderer
+  :free: Exert
+  :quick:
+  - Hunt
+  - Stab
+  :growth:
+  - "+1 Any Att"
+  - "+2 Physical"
+  - "+2 Physical"
+  - "+2 Mental"
+  - Exert
+  - Any Skill
+  :learning:
+  - Any Combat
+  - Any Skill
+  - Connect
+  - Exert
+  - Hunt
+  - Notice
+  - Sneak
+  - Talk
