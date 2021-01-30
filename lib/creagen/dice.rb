@@ -22,6 +22,11 @@ module Creagen
         ::Kernel.rand(a..b)
       end
     end
+
+    def roll(s)
+
+      Creagen::Dice.new(s).roll
+    end
   end
 
   class Dice
@@ -50,7 +55,7 @@ module Creagen
         return nil unless s.is_a?(String)
 
         a = []
-        k = StringScanner.new(s)
+        k = ::StringScanner.new(s)
 
         loop do
           c = k.scan(/\d+/)
