@@ -1,0 +1,64 @@
+---
+- :name: Commoner
+  :free: Work
+  :quick:
+  - Stab
+  - Connect
+  :growth:
+  - "+1 Any Att"
+  - "+2 Physical"
+  - "+2 Physical"
+  - "+2 Mental"
+  - Exert
+  - Any Skill
+  :learning:
+  - Any Skill
+  - Connect
+  - Craft
+  - Exert
+  - Hunt
+  - Administer
+  - Stab
+  - Work
+- :name: Artisan
+  :free: Craft
+  :quick:
+  - Trade
+  - Connect
+  :growth:
+  - "+1 Any Att"
+  - "+2 Physical"
+  - "+2 Mental"
+  - "+2 Mental"
+  - Exert
+  - Any Skill
+  :learning:
+  - Any Skill
+  - Connect
+  - Craft
+  - Trade
+  - Know
+  - Administer
+  - Talk
+  - Work
+- :name: Noble
+  :free: Stab
+  :quick:
+  - Lead
+  - Connect
+  :growth:
+  - "+1 Any Att"
+  - "+2 Physical"
+  - "+2 Physical"
+  - "+2 Mental"
+  - Connect
+  - Any Skill
+  :learning:
+  - Any Combat
+  - Any Skill
+  - Connect
+  - Trade
+  - Lead
+  - Ride
+  - Stab
+  - Talk
