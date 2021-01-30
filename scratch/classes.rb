@@ -15,7 +15,8 @@ puts YAML.dump([
       { hp: '7d6+14', attack: 7, foci: 1 },
       { hp: '8d6+16', attack: 8 },
       { hp: '9d6+18', attack: 9 },
-      { hp: '10d6+20', attack: 10, foci: 1 } ] },
+      { hp: '10d6+20', attack: 10, foci: 1 } ],
+    weapons: [ 'Spear', [ 'Axe', 'Seax' ] ] },
   { name: 'Expert',
     attribute: nil,
     skill: nil,
@@ -29,7 +30,8 @@ puts YAML.dump([
       { hp: '7d6', attack: 3, foci: 1 },
       { hp: '8d6', attack: 4 },
       { hp: '9d6', attack: 4 },
-      { hp: '10d6', attack: 5, foci: 1 } ] },
+      { hp: '10d6', attack: 5, foci: 1 } ],
+    weapons: [ [ 'Club', 'Staff' ], [ 'Seax', 'Knife' ] ] },
   { name: 'Weaver',
     attribute: 'intelligence',
     skill: 'Magic',
@@ -43,6 +45,7 @@ puts YAML.dump([
       { hp: '7d6-7', attack: 3, foci: 1 },
       { hp: '8d6-8', attack: 3 },
       { hp: '9d6-9', attack: 3 },
-      { hp: '10d6-10', attack: 4, foci: 1 } ] },
+      { hp: '10d6-10', attack: 4, foci: 1 } ],
+    weapons: [ 'Staff', [ 'Seax', 'Knife' ] ] },
 ])
 

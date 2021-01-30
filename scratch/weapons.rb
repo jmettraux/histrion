@@ -1,0 +1,38 @@
+
+require 'yaml'
+
+puts YAML.dump([
+  { name: 'Axe, hand',
+    nick: 'Axe',
+    damage: '1d6',
+    attributes: [ 'strength' ],
+    shock: [ 2, 13 ],
+    range: [ 10, 30 ] },
+  { name: 'Club',
+    nick: 'Club',
+    damage: '1d4',
+    attributes: [ 'strength' ],
+    shock: [ 1, 13 ] },
+  { name: 'Seax',
+    nick: 'Seax',
+    damage: '1d6',
+    attributes: [ 'strength', 'dexterity' ],
+    shock: [ 1, 15 ] },
+  { name: 'Spear, broad',
+    nick: 'Spear',
+    damage: '1d8',
+    attributes: [ 'strength' ],
+    shock: [ 2, 13 ] },
+  { name: 'Staff',
+    nick: 'Staff',
+    damage: '1d6',
+    attributes: [ 'strength' ],
+    shock: [ 2, 13 ] },
+  { name: 'Bow, short',
+    nick: 'Bow',
+    damage: '1d6',
+    attributes: [ 'dexterity' ],
+    shock: nil,
+    range: [ 50, 300 ] },
+])
+

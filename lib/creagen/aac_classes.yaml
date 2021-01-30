@@ -28,6 +28,10 @@
   - :hp: 10d6+20
     :attack: 10
     :foci: 1
+  :weapons:
+  - Spear
+  - - Axe
+    - Seax
 - :name: Expert
   :attribute: 
   :skill: 
@@ -57,6 +61,11 @@
   - :hp: 10d6
     :attack: 5
     :foci: 1
+  :weapons:
+  - - Club
+    - Staff
+  - - Seax
+    - Knife
 - :name: Weaver
   :attribute: intelligence
   :skill: Magic
@@ -86,3 +95,7 @@
   - :hp: 10d6-10
     :attack: 4
     :foci: 1
+  :weapons:
+  - Staff
+  - - Seax
+    - Knife
