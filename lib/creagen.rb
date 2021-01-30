@@ -8,6 +8,7 @@ module Creagen; end
 
 require 'creagen/dice'
 require 'creagen/creature'
+require 'creagen/character'
 require 'creagen/gen'
 
 

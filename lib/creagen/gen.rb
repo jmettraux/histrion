@@ -5,9 +5,14 @@ module Creagen
 
     def generate
 
-      p ARGV
+      #p ARGV
 
-      c = Creagen::Creature.new
+      make_character
+    end
+
+    def make_character
+
+      c = Creagen::Character.new
 
       c.background =
         YAML.load_file(File.join(__dir__, 'backgrounds.yaml'))
@@ -16,7 +21,7 @@ module Creagen
 
       c.pick_a_skill
 
-      p c
+      c
     end
   end
 end
