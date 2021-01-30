@@ -14,6 +14,8 @@ module Creagen
           .shuffle(random: c.rnd)
           .first
 
+      c.pick_a_skill
+
       p c
     end
   end

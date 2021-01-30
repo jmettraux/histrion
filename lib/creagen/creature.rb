@@ -168,6 +168,11 @@ class Creagen::Creature
     end
   end
 
+  def pick_a_skill
+
+    while grow_any_skill == false; end
+  end
+
   protected
 
   def mod(k)
