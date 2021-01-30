@@ -30,6 +30,13 @@ class Creagen::Creature
   alias wis wisdom
   alias cha charisma
 
+  def str_s; str < 10 ? " #{str}" : str.to_s; end
+  def con_s; con < 10 ? " #{con}" : con.to_s; end
+  def dex_s; dex < 10 ? " #{dex}" : dex.to_s; end
+  def int_s; int < 10 ? " #{int}" : int.to_s; end
+  def wis_s; wis < 10 ? " #{wis}" : wis.to_s; end
+  def cha_s; cha < 10 ? " #{cha}" : cha.to_s; end
+
   attr_reader :rnd
 
   def str_mod; mod(:str); end
@@ -38,6 +45,13 @@ class Creagen::Creature
   def int_mod; mod(:int); end
   def wis_mod; mod(:wis); end
   def cha_mod; mod(:cha); end
+    #
+  def str_mod_s; mod_s(:str); end
+  def con_mod_s; mod_s(:con); end
+  def dex_mod_s; mod_s(:dex); end
+  def int_mod_s; mod_s(:int); end
+  def wis_mod_s; mod_s(:wis); end
+  def cha_mod_s; mod_s(:cha); end
 
   def score(k); self.send(k.to_s[0, 3]); end
 
@@ -57,7 +71,23 @@ class Creagen::Creature
     @level = 1
 
     @skills = {}
+    @klass = 'Fighter' # FIXME
   end
+
+  def physical_save; 16 - @level - [ str_mod, con_mod ].max; end
+  def evasion_save; 16 - @level - [ dex_mod, int_mod ].max; end
+  def mental_save; 16 - @level - [ wis_mod, cha_mod ].max; end
+  def luck_save; 16 - @level; end
+    #
+  alias phy_save physical_save
+  alias eva_save evasion_save
+  alias men_save mental_save
+  alias luc_save luck_save
+  alias luk_save luck_save
+
+  def naked_ac; 10 + dex_mod; end
+  def ac; 10 + dex_mod; end         # FIXME
+  def shield_ac; 14 + dex_mod; end  # FIXME
 
   def stab; @skills['Stab'] || -2; end
   def shoot; @skills['Shoot'] || -2; end
@@ -79,6 +109,65 @@ class Creagen::Creature
     self.send(meth, b)
   end
 
+  def sgn(i); i < 0 ? i.to_s : "+#{i}"; end
+  def rig(v);
+    { value: v, alignment: :right }
+  end
+
+  def to_table(opts={})
+
+    Terminal::Table.new do |t|
+
+      skills =
+        [ "Stab-#{stab}", "Shoot-#{shoot}", "Punch-#{punch}" ]
+          .reject { |e| e.match(/-2/) } +
+        [ nil ] +
+        (@skills.keys - %w[ Stab Shoot Punch ]).map { |k| "#{k}-#{@skills[k]}" }
+
+      t << [
+        'NEMO',
+        @background,
+        "#{@klass} #{@level}",
+        '' ]
+      t << :separator
+      t << [
+        "STR  #{str_s} (#{str_mod_s})",
+        '',
+        skills[0],
+        rig("HP #{10}") ]
+      t << [
+        "CON  #{con_s} (#{con_mod_s})",
+        "Physical #{phy_save}",
+        skills[1],
+        rig("WP #{10}") ]
+      t << [
+        "DEX  #{dex_s} (#{dex_mod_s})",
+        '',
+        skills[2],
+        "Ini #{dex_mod_s}" ]
+      t << [
+        "INT  #{int_s} (#{int_mod_s})",
+        "Evasion #{eva_save}",
+        skills[3],
+        rig("naked AC #{naked_ac}") ]
+      t << [
+        "WIS  #{wis_s} (#{wis_mod_s})",
+        '',
+        skills[4],
+        rig("AC #{ac}") ]
+      t << [
+        "CHA  #{cha_s} (#{cha_mod_s})",
+        "Mental #{men_save}",
+        skills[5],
+        rig("shield AC #{shield_ac}") ]
+      t << [
+        '',
+        "Luck #{luk_save}",
+        (skills[6..-1] || []).join("\n"),
+        '' ]
+    end
+  end
+
   protected
 
   def mod(k)
@@ -92,6 +181,11 @@ class Creagen::Creature
     when 18 then 2
     else 3
     end
+  end
+
+  def mod_s(k)
+
+    sgn(mod(k))
   end
 
   def apply_background_quick(b)

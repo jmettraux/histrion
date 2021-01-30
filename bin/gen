@@ -1,4 +1,4 @@
 #!/bin/sh
 
-ruby -Ilib -r creagen -e "Creagen.generate" "$@"
+ruby -Ilib -r creagen -e "puts Creagen.generate.to_table" "$@"
 
