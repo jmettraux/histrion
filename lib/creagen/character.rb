@@ -17,9 +17,20 @@ class Creagen::Character < Creagen::Creature
     self.send(meth, b)
   end
 
+  def klass=(c)
+
+    @kla = c
+  end
+
   def pick_a_skill
 
-    while grow_any_skill == false; end
+    s = @kla[:skill]
+
+    if s && (@skills[s] || -1) < 0
+      inc_skill(s)
+    else
+      while grow_any_skill == false; end
+    end
   end
 
   protected

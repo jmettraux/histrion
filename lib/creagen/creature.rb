@@ -12,8 +12,6 @@ class Creagen::Creature
   attr_accessor :strength, :constitution, :dexterity
   attr_accessor :intelligence, :wisdom, :charisma
 
-  attr_accessor :klass, :level
-
   attr_reader :skills
 
   alias str= strength=
@@ -68,16 +66,33 @@ class Creagen::Creature
     self.wis = dice.roll
     self.cha = dice.roll
 
-    @level = 1
-
     @skills = {}
-    @klass = 'Fighter' # FIXME
   end
 
-  def physical_save; 16 - @level - [ str_mod, con_mod ].max; end
-  def evasion_save; 16 - @level - [ dex_mod, int_mod ].max; end
-  def mental_save; 16 - @level - [ wis_mod, cha_mod ].max; end
-  def luck_save; 16 - @level; end
+  def name
+
+    @name || 'Nemo'
+  end
+
+  def background
+
+    @background
+  end
+
+  def klass
+
+    @kla ? @kla[:name] : @klass
+  end
+
+  def level
+
+    @level || @hd || 1
+  end
+
+  def physical_save; 16 - level - [ str_mod, con_mod ].max; end
+  def evasion_save; 16 - level - [ dex_mod, int_mod ].max; end
+  def mental_save; 16 - level - [ wis_mod, cha_mod ].max; end
+  def luck_save; 16 - level; end
     #
   alias phy_save physical_save
   alias eva_save evasion_save
@@ -97,16 +112,23 @@ class Creagen::Creature
 
     Terminal::Table.new do |t|
 
+      t.style = { width: 64 }
+
+      m = @skills['Magic'] 
+      magic_skills = m ? [ "Magic-#{m}", nil ] : []
+
       skills =
         [ "Stab-#{stab}", "Shoot-#{shoot}", "Punch-#{punch}" ]
           .reject { |e| e.match(/-2/) } +
         [ nil ] +
-        (@skills.keys - %w[ Stab Shoot Punch ]).map { |k| "#{k}-#{@skills[k]}" }
+        magic_skills +
+        (@skills.keys - %w[ Stab Shoot Punch Magic ])
+          .map { |k| "#{k}-#{@skills[k]}" }
 
       t << [
-        'NEMO',
-        @background,
-        "#{@klass} #{@level}",
+        name,
+        background,
+        "#{klass} #{level}",
         '' ]
       t << :separator
       t << [
@@ -147,14 +169,6 @@ class Creagen::Creature
     end
   end
 
-  protected
-
-  def rig(v);
-    { value: v, alignment: :right }
-  end
-
-  def sgn(i); i < 0 ? i.to_s : "+#{i}"; end
-
   def mod(k)
 
     case score(k)
@@ -167,6 +181,14 @@ class Creagen::Creature
     else 3
     end
   end
+
+  protected
+
+  def rig(v);
+    { value: v, alignment: :right }
+  end
+
+  def sgn(i); i < 0 ? i.to_s : "+#{i}"; end
 
   def mod_s(k)
 
