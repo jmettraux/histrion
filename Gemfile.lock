@@ -1,6 +1,20 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    diff-lcs (1.4.4)
+    rspec (3.10.0)
+      rspec-core (~> 3.10.0)
+      rspec-expectations (~> 3.10.0)
+      rspec-mocks (~> 3.10.0)
+    rspec-core (3.10.1)
+      rspec-support (~> 3.10.0)
+    rspec-expectations (3.10.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.10.0)
+    rspec-mocks (3.10.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.10.0)
+    rspec-support (3.10.1)
     terminal-table (3.0.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
     unicode-display_width (1.7.0)
@@ -9,6 +23,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  rspec
   terminal-table
 
 BUNDLED WITH
