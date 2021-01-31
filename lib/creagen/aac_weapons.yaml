@@ -4,6 +4,7 @@
   :damage: 1d6
   :attributes:
   - strength
+  - dexterity
   :shock:
   - 2
   - 13
@@ -21,6 +22,15 @@
 - :name: Seax
   :nick: Seax
   :damage: 1d6
+  :attributes:
+  - strength
+  - dexterity
+  :shock:
+  - 1
+  - 15
+- :name: Knife
+  :nick: Knife
+  :damage: 1d4
   :attributes:
   - strength
   - dexterity

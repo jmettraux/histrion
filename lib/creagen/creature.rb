@@ -147,14 +147,19 @@ class Creagen::Creature
         { value: name, colspan: 2 },
         background,
         "#{klass} #{level}" ]
+
       t << :separator
+
       if @foci
-      t << [
-        { value: @foci.map { |k, v| "#{k}#{v > 1 ? " #{v}" : ''}" }.join(', '),
-          colspan: 3 },
-        '30ft_9m_6sq_t' ]
-      t << :separator
+        t << [
+          { value: @foci
+            .collect { |k, v| "#{k}#{v > 1 ? " #{v}" : ''}" }
+            .join(', '),
+            colspan: 3 },
+          '30ft_9m_6sq_t' ]
+        t << :separator
       end
+
       t << [
         '',
         "STR  #{str_s} (#{str_mod_s})",
@@ -190,18 +195,37 @@ class Creagen::Creature
         '',
         (skills[6..-1] || []).join("\n"),
         "Att #{sgn(ab)}" ]
+
       t << :separator
+
       weapons.each do |w|
-p w
         if w[:attributes].include?('strength')
           nic = w[:nick]
           att = sgn(stab + str_mod + ab)
           dmg = w[:damage] + ' ' + str_mod_s
           s, a = w[:shock]
           sho = "%d %s AC %d" % [ s, sgn(str_mod), a ]
-          #v = "#{w[:nick]}  STR #{att}  dmg #{dmg}  shock #{sho}"
-          v = "%10s STR  att %s  dmg %s  shock %s" % [ nic, att, dmg, sho ]
+          v = "%10s STR  att %s  dmg %s  shock %10s" % [ nic, att, dmg, sho ]
           t << [ { value: v, colspan: 4 } ]
+        end
+        if w[:attributes].include?('dexterity')
+          if r = w[:range]
+            nic = w[:nick]
+            att = sgn(stab + dex_mod + ab)
+            dmg = w[:damage] + ' ' + dex_mod_s
+            ran = w[:range].inspect
+            v = "%10s DEX  att %s  dmg %s        %10s  %s" % [
+              nic, att, dmg, '', ran ]
+            t << [ { value: v, colspan: 4 } ]
+          else
+            nic = w[:nick]
+            att = sgn(stab + dex_mod + ab)
+            dmg = w[:damage] + ' ' + dex_mod_s
+            s, a = w[:shock]
+            sho = "%d %s AC %d" % [ s, sgn(str_mod), a ]
+            v = "%10s DEX  att %s  dmg %s  shock %10s" % [ nic, att, dmg, sho ]
+            t << [ { value: v, colspan: 4 } ]
+          end
         end
       end
     end
