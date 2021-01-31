@@ -105,8 +105,16 @@ class Creagen::Creature
   alias luk_save luck_save
 
   def naked_ac; 10 + dex_mod; end
-  def ac; 10 + dex_mod; end         # FIXME
-  def shield_ac; 14 + dex_mod; end  # FIXME
+  def ac; naked_ac; end
+
+  def shield_ac
+    sac = 15 + dex_mod
+    if sac > ac
+      sac
+    else
+      ac + 1
+    end
+  end
 
   def stab; @skills['Stab'] || -2; end
   def shoot; @skills['Shoot'] || -2; end
