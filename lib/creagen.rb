@@ -4,6 +4,8 @@ require 'strscan'
 
 require 'terminal-table'
 
+require 'feet_expander'
+
 module Creagen; end
 
 require 'creagen/dice'
