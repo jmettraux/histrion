@@ -130,7 +130,7 @@ class Creagen::Creature
 
     Terminal::Table.new do |t|
 
-      t.style = { width: 80 }
+      t.style = { width: 82, border_left: false, border_right: false }
 
       m = @skills['Magic']
       magic_skills = m ? [ "Magic-#{m}", nil ] : []
@@ -198,32 +198,37 @@ class Creagen::Creature
 
       t << :separator
 
+      nwidth = 7 # weapon name width
+      swidth = 9 # shock width
+
       weapons.each do |w|
         if w[:attributes].include?('strength')
           nic = w[:nick]
           att = sgn(stab + str_mod + ab)
-          dmg = w[:damage] + ' ' + str_mod_s
+          dmg = w[:damage] + str_mod_s
           s, a = w[:shock]
-          sho = "%d %s AC %d" % [ s, sgn(str_mod), a ]
-          v = "%10s STR  att %s  dmg %s  shock %10s" % [ nic, att, dmg, sho ]
+          sho = "%d%s AC %d" % [ s, sgn(str_mod), a ]
+          v = "%#{nwidth}s STR  att %s  dmg %s  shock %#{swidth}s" % [
+            nic, att, dmg, sho ]
           t << [ { value: v, colspan: 4 } ]
         end
         if w[:attributes].include?('dexterity')
           if r = w[:range]
             nic = w[:nick]
             att = sgn(stab + dex_mod + ab)
-            dmg = w[:damage] + ' ' + dex_mod_s
-            ran = w[:range].inspect
-            v = "%10s DEX  att %s  dmg %s        %10s  %s" % [
+            dmg = w[:damage] + dex_mod_s
+            ran = r.collect { |e| FeetExpander.exp(e) }.join('  ')
+            v = "%#{nwidth}s DEX  att %s  dmg %s        %#{swidth}s  %s" % [
               nic, att, dmg, '', ran ]
             t << [ { value: v, colspan: 4 } ]
           else
             nic = w[:nick]
             att = sgn(stab + dex_mod + ab)
-            dmg = w[:damage] + ' ' + dex_mod_s
+            dmg = w[:damage] + dex_mod_s
             s, a = w[:shock]
-            sho = "%d %s AC %d" % [ s, sgn(str_mod), a ]
-            v = "%10s DEX  att %s  dmg %s  shock %10s" % [ nic, att, dmg, sho ]
+            sho = "%d%s AC %d" % [ s, sgn(str_mod), a ]
+            v = "%#{nwidth}s DEX  att %s  dmg %s  shock %#{swidth}s" % [
+              nic, att, dmg, sho ]
             t << [ { value: v, colspan: 4 } ]
           end
         end

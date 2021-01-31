@@ -17,6 +17,11 @@ module FeetExpander
           }
     end
 
+    def exp(n)
+
+      expand("#{n} feet")
+    end
+
     #def list_to(max)
     #  f = 5
     #  loop do
