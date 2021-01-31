@@ -130,7 +130,10 @@ class Creagen::Creature
 
     Terminal::Table.new do |t|
 
-      t.style = { width: 82, border_left: false, border_right: false }
+      t.style = {
+        width: 82,
+        border_left: false, border_right: false }
+        #border_bottom: false }
 
       m = @skills['Magic']
       magic_skills = m ? [ "Magic-#{m}", nil ] : []
@@ -144,7 +147,7 @@ class Creagen::Creature
           .map { |k| "#{k}-#{@skills[k]}" }
 
       t << [
-        { value: name, colspan: 2 },
+        { value: (name || '').upcase, colspan: 2 },
         background,
         "#{klass} #{level}" ]
 

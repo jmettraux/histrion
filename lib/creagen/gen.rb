@@ -11,9 +11,19 @@ module Creagen
 
     def generate
 
-      #p ARGV
+      count = 1
 
-      make_character
+      ARGV.each do |a|
+        if a.match?(/^\d+/)
+          count = a.to_i
+        end
+      end
+
+      count.times do
+
+        #puts
+        puts make_character.to_table
+      end
     end
 
     def make_character
