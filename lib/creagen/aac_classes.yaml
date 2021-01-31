@@ -32,6 +32,8 @@
   - Spear
   - - Axe
     - Seax
+  - - Bow
+    - 
 - :name: Expert
   :attribute: 
   :skill: 
@@ -64,6 +66,7 @@
   :weapons:
   - - Club
     - Staff
+    - Bow
   - - Seax
     - Knife
 - :name: Weaver
@@ -96,6 +99,7 @@
     :attack: 4
     :foci: 1
   :weapons:
-  - Staff
+  - - Staff
+    - Bow
   - - Seax
     - Knife

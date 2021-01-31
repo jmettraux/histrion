@@ -201,36 +201,36 @@ class Creagen::Creature
 
       t << :separator
 
-      nwidth = 7 # weapon name width
-      swidth = 9 # shock width
+      nwidth = 9 # weapon name width
 
       weapons.each do |w|
         if w[:attributes].include?('strength')
-          nic = w[:nick]
+          nic = w[:nick][0, nwidth]
           att = sgn(stab + str_mod + ab)
           dmg = w[:damage] + str_mod_s
           s, a = w[:shock]
           sho = "%d%s AC %d" % [ s, sgn(str_mod), a ]
-          v = "%#{nwidth}s STR  att %s  dmg %s  shock %#{swidth}s" % [
+          v = "%#{nwidth}s STR  %s  dmg %s  shk %9s" % [
             nic, att, dmg, sho ]
           t << [ { value: v, colspan: 4 } ]
         end
         if w[:attributes].include?('dexterity')
           if r = w[:range]
-            nic = w[:nick]
+            nic = w[:nick][0, nwidth]
             att = sgn(stab + dex_mod + ab)
             dmg = w[:damage] + dex_mod_s
-            ran = r.collect { |e| FeetExpander.exp(e) }.join('  ')
-            v = "%#{nwidth}s DEX  att %s  dmg %s        %#{swidth}s  %s" % [
-              nic, att, dmg, '', ran ]
+            #ran = r.collect { |e| FeetExpander.exp(e) }.join('  ')
+            ran = "%-19s  %-19s" % r.collect { |e| FeetExpander.exp(e) }
+            v = "%#{nwidth}s DEX  %s  dmg %s       %s" % [
+              nic, att, dmg, ran ]
             t << [ { value: v, colspan: 4 } ]
           else
-            nic = w[:nick]
+            nic = w[:nick][0, nwidth]
             att = sgn(stab + dex_mod + ab)
             dmg = w[:damage] + dex_mod_s
             s, a = w[:shock]
             sho = "%d%s AC %d" % [ s, sgn(str_mod), a ]
-            v = "%#{nwidth}s DEX  att %s  dmg %s  shock %#{swidth}s" % [
+            v = "%#{nwidth}s DEX  %s  dmg %s  shk %9s" % [
               nic, att, dmg, sho ]
             t << [ { value: v, colspan: 4 } ]
           end
