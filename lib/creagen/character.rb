@@ -53,6 +53,10 @@ class Creagen::Character < Creagen::Creature
       if l == 1
         m = f[:module]; self.singleton_class.include(m) if m
         v = f[:lambda]; v[self] if v
+        (f[:skills] || []).each do |s|
+          s = pick(s) if s.is_a?(Array)
+          inc_skill(s)
+        end
       end
     end
   end
