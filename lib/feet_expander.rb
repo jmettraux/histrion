@@ -108,6 +108,8 @@ module FeetExpander
           ('F' * fs) + ('t' * ts) }
         .gsub(/F+/) { |s|
           s.length > 3 ? "#{s.length}F" : s }
+        .gsub(/F\+([23])$/) { |s|
+          "tt#{-4 + $1.to_i}" }
     end
   end
 end
