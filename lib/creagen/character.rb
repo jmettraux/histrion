@@ -1,8 +1,6 @@
 
 class Creagen::Character < Creagen::Creature
 
-  attr_accessor  :foci_source
-
   #def initialize
   #  super
   #end
@@ -23,6 +21,16 @@ class Creagen::Character < Creagen::Creature
     self.send(meth, b)
   end
 
+  def attack_bonus
+
+    if @kla
+      @kla[:levels][level][:attack]
+    else
+      fail NotImplementedError.new("(HD / 2 rounded up)")
+    end
+  end
+  alias ab attack_bonus
+
   def klass=(c)
 
     @kla = c
@@ -35,10 +43,14 @@ class Creagen::Character < Creagen::Creature
     @foci = {}
     count = c[:levels][0][:foci]
     while @foci.count < count do
-      f = pick(@foci_source)
+      f = pick(FOCI)
       n = f[:name]
       l = @foci[n]; next if l == 2
-      @foci[n] = (l || 0) + 1
+      l = @foci[n] = (l || 0) + 1
+      if l == 1
+        m = f[:module]
+        self.singleton_class.include(m) if m
+      end
     end
   end
 

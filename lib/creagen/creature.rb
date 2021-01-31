@@ -141,7 +141,7 @@ class Creagen::Creature
       t << :separator
       if @foci
       t << [
-        { value: @foci.map { |k, v| "#{k}#{v > 1 ? ' ' + v : ''}" }.join(', '),
+        { value: @foci.map { |k, v| "#{k}#{v > 1 ? " #{v}" : ''}" }.join(', '),
           colspan: 4 } ]
       t << :separator
       end

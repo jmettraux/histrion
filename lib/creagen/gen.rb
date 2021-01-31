@@ -12,6 +12,8 @@ module Creagen
 
     def make_character
 
+      load(File.join(__dir__, 'aac_foci.rb'))
+
       klasses = YAML.load_file(File.join(__dir__, 'aac_classes.yaml'))
 
       c = Creagen::Character.new
@@ -26,9 +28,6 @@ module Creagen
           .select { |l| l.length > 0 }
           .shuffle(random: c.rnd)
           .first
-
-      c.foci_source =
-        YAML.load_file(File.join(__dir__, 'aac_foci.yaml'))
 
       c.klass =
         klasses
