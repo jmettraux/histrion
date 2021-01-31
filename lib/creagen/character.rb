@@ -42,14 +42,17 @@ class Creagen::Character < Creagen::Creature
 
     @foci = {}
     count = c[:levels][0][:foci]
+      #
     while @foci.count < count do
+
       f = pick(FOCI)
       n = f[:name]
       l = @foci[n]; next if l == 2
       l = @foci[n] = (l || 0) + 1
+
       if l == 1
-        m = f[:module]
-        self.singleton_class.include(m) if m
+        m = f[:module]; self.singleton_class.include(m) if m
+        v = f[:lambda]; v[self] if v
       end
     end
   end

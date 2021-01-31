@@ -12,7 +12,8 @@ module AacOakenHide
 end
 
 AacPolymath =
-  lambda do
+  lambda do |character|
+    character.send(:grow_any_skill)
   end
 
 module AacWrestler
