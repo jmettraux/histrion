@@ -34,18 +34,25 @@ class Creagen::Character < Creagen::Creature
   def klass=(c)
 
     @kla = c
+    l0 = c[:levels][0]
 
-    hd = c[:levels][0][:hp]
-    r = Creagen.roll(hd)
-    r = r + con_mod * level
+    #
+    # hit points
+
+    @hd = l0[:hp]
+    r = Creagen.roll(@hd)
+    r = r + con_mod * 1
     @hp = [ 1, r ].max
 
+    #
+    # foci
+
     @foci = {}
-    count = c[:levels][0][:foci]
+    count = l0[:foci]
       #
     while @foci.count < count do
 
-      f = pick(FOCI)
+      f = pick(Creagen::FOCI)
       n = f[:name]
       l = @foci[n]; next if l == 2
       l = @foci[n] = (l || 0) + 1
@@ -59,6 +66,18 @@ class Creagen::Character < Creagen::Creature
         end
       end
     end
+
+    #
+    # weapons
+
+    @weapons += c[:weapons]
+      .collect { |e|
+        if e.is_a?(Array)
+          Creagen::WEAPONS[pick(e)]
+        else
+          Creagen::WEAPONS[e]
+        end.dup }
+      .compact
   end
 
   def pick_a_skill

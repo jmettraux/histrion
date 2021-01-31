@@ -16,7 +16,7 @@ class Creagen::Creature
 
   attr_reader :hp
 
-  attr_reader :skills
+  attr_reader :skills, :weapons
 
   alias str= strength=
   alias con= constitution=
@@ -71,6 +71,7 @@ class Creagen::Creature
     self.cha = dice.roll
 
     @skills = {}
+    @weapons = []
   end
 
   def name
@@ -90,7 +91,7 @@ class Creagen::Creature
 
   def level
 
-    @level || @hd || 1
+    @level || 1
   end
 
   def physical_save; 16 - level - [ str_mod, con_mod ].max; end
@@ -129,7 +130,7 @@ class Creagen::Creature
 
     Terminal::Table.new do |t|
 
-      t.style = { width: 70 }
+      t.style = { width: 80 }
 
       m = @skills['Magic']
       magic_skills = m ? [ "Magic-#{m}", nil ] : []
@@ -150,7 +151,8 @@ class Creagen::Creature
       if @foci
       t << [
         { value: @foci.map { |k, v| "#{k}#{v > 1 ? " #{v}" : ''}" }.join(', '),
-          colspan: 4 } ]
+          colspan: 3 },
+        '30ft_9m_6sq_t' ]
       t << :separator
       end
       t << [
@@ -187,7 +189,21 @@ class Creagen::Creature
         { value: "Luck #{luk_save}", alignment: :right },
         '',
         (skills[6..-1] || []).join("\n"),
-        '' ]
+        "Att #{sgn(ab)}" ]
+      t << :separator
+      weapons.each do |w|
+p w
+        if w[:attributes].include?('strength')
+          nic = w[:nick]
+          att = sgn(stab + str_mod + ab)
+          dmg = w[:damage] + ' ' + str_mod_s
+          s, a = w[:shock]
+          sho = "%d %s AC %d" % [ s, sgn(str_mod), a ]
+          #v = "#{w[:nick]}  STR #{att}  dmg #{dmg}  shock #{sho}"
+          v = "%10s STR  att %s  dmg %s  shock %s" % [ nic, att, dmg, sho ]
+          t << [ { value: v, colspan: 4 } ]
+        end
+      end
     end
   end
 

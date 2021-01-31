@@ -1,6 +1,12 @@
 
 module Creagen
 
+  FOCI =
+    Kernel.eval(File.read(File.join(__dir__, 'aac_foci.rb')))
+  WEAPONS =
+    YAML.load_file(File.join(__dir__, 'aac_weapons.yaml'))
+      .inject({}) { |h, w| h[w[:nick]] = w; h }
+
   class << self
 
     def generate
@@ -12,20 +18,19 @@ module Creagen
 
     def make_character
 
-      load(File.join(__dir__, 'aac_foci.rb'))
-
       klasses = YAML.load_file(File.join(__dir__, 'aac_classes.yaml'))
 
       c = Creagen::Character.new
 
       c.background =
-        YAML.load_file(File.join(__dir__, 'aac_backgrounds.yaml'))
+        YAML.load_file(path('aac_backgrounds.yaml'))
           .shuffle(random: c.rnd)
           .first
 
       c.name =
-        File.readlines(File.join(__dir__, 'norse_male_names.txt'))
-          .select { |l| l.length > 0 }
+        File.readlines(path('norse_male_names.txt'))
+          .collect(&:strip)
+          .select { |l| l.length > 0 && l[0, 1] != '#' }
           .shuffle(random: c.rnd)
           .first
 
@@ -43,5 +48,9 @@ module Creagen
 
       c
     end
+
+    protected
+
+    def path(fname); File.join(__dir__, fname); end
   end
 end

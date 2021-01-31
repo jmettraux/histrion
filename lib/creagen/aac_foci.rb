@@ -34,20 +34,19 @@ module AacOakenHide
   end
 end
 
-AacPolymath =
-  lambda do |character|
-    character.send(:grow_any_skill)
-  end
-
-module AacWrestler
-  # The character unarmed Punch attack does a base of 1d6 damage and
-  # its Shock is 1 / AC 15. +1 on all grappling skill checks
-  def weapons
-    # TODO
-  end
+AacPolymath = lambda do |character|
+  character.send(:grow_any_skill)
 end
 
-FOCI = [
+AacWrestler = lambda do |character|
+  # The character unarmed Punch attack does a base of 1d6 damage and
+  # its Shock is 1 / AC 15. +1 on all grappling skill checks
+  character.weapons << {
+    name: 'Punch', nick: 'Punch', attributes: %w[ strength ],
+    damage: '1d6', shock: [ 1, 15 ] }
+end
+
+[
   { name: 'Alert', skills: %w[ Notice ] },
   { name: 'As Our Power Lessens' },
   { name: 'Authority', skills: %w[ Lead ] },
@@ -68,6 +67,6 @@ FOCI = [
   { name: 'Scop-wise', skills: %w[ Perform ] },
   { name: 'Specialist', skills: [ 'Any Skill' ] },
   { name: 'Strongbow', skills: %w[ Shoot ] },
-  { name: 'Wrestler', module: AacWrestler },
-    ]
+  { name: 'Wrestler', lambda: AacWrestler },
+]
 
