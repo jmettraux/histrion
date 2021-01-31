@@ -9,6 +9,8 @@ class Creagen::Creature
   MENTAL_ATTRIBUTES = %w[
     intelligence wisdom charisma ]
 
+  attr_accessor :name
+
   attr_accessor :strength, :constitution, :dexterity
   attr_accessor :intelligence, :wisdom, :charisma
 
@@ -119,7 +121,7 @@ class Creagen::Creature
 
     Terminal::Table.new do |t|
 
-      t.style = { width: 64 }
+      t.style = { width: 70 }
 
       m = @skills['Magic']
       magic_skills = m ? [ "Magic-#{m}", nil ] : []
@@ -133,10 +135,9 @@ class Creagen::Creature
           .map { |k| "#{k}-#{@skills[k]}" }
 
       t << [
-        name,
+        { value: name, colspan: 2 },
         background,
-        "#{klass} #{level}",
-        '' ]
+        "#{klass} #{level}" ]
       t << :separator
       if @foci
       t << [
@@ -145,38 +146,38 @@ class Creagen::Creature
       t << :separator
       end
       t << [
-        "STR  #{str_s} (#{str_mod_s})",
         '',
+        "STR  #{str_s} (#{str_mod_s})",
         skills[0],
         rig("HP #{hp}") ]
       t << [
+        { value: "Physical #{phy_save}", alignment: :right },
         "CON  #{con_s} (#{con_mod_s})",
-        "Physical #{phy_save}",
         skills[1],
         @skills['Magic'] ? rig("WP #{wp}") : '' ]
       t << [
-        "DEX  #{dex_s} (#{dex_mod_s})",
         '',
+        "DEX  #{dex_s} (#{dex_mod_s})",
         skills[2],
         "Ini #{dex_mod_s}" ]
       t << [
+        { value: "Evasion #{eva_save}", alignment: :right },
         "INT  #{int_s} (#{int_mod_s})",
-        "Evasion #{eva_save}",
         skills[3],
         rig("naked AC #{naked_ac}") ]
       t << [
-        "WIS  #{wis_s} (#{wis_mod_s})",
         '',
+        "WIS  #{wis_s} (#{wis_mod_s})",
         skills[4],
         rig("AC #{ac}") ]
       t << [
+        { value: "Mental #{men_save}", alignment: :right },
         "CHA  #{cha_s} (#{cha_mod_s})",
-        "Mental #{men_save}",
         skills[5],
         rig("shield AC #{shield_ac}") ]
       t << [
+        { value: "Luck #{luk_save}", alignment: :right },
         '',
-        "Luck #{luk_save}",
         (skills[6..-1] || []).join("\n"),
         '' ]
     end

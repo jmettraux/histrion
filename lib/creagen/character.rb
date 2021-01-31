@@ -3,6 +3,10 @@ class Creagen::Character < Creagen::Creature
 
   attr_accessor  :foci_source
 
+  #def initialize
+  #  super
+  #end
+
   def background=(b, meth=nil)
 
     @background = b[:name]

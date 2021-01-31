@@ -21,7 +21,14 @@ module Creagen
           .shuffle(random: c.rnd)
           .first
 
-      c.foci_source = YAML.load_file(File.join(__dir__, 'aac_foci.yaml'))
+      c.name =
+        File.readlines(File.join(__dir__, 'norse_male_names.txt'))
+          .select { |l| l.length > 0 }
+          .shuffle(random: c.rnd)
+          .first
+
+      c.foci_source =
+        YAML.load_file(File.join(__dir__, 'aac_foci.yaml'))
 
       c.klass =
         klasses
