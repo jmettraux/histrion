@@ -1,6 +1,8 @@
 
 class Creagen::Character < Creagen::Creature
 
+  attr_accessor  :foci_source
+
   def background=(b, meth=nil)
 
     @background = b[:name]
@@ -21,10 +23,19 @@ class Creagen::Character < Creagen::Creature
 
     @kla = c
 
-    hd = c[:levels][level - 1][:hp]
+    hd = c[:levels][0][:hp]
     r = Creagen.roll(hd)
     r = r + con_mod * level
     @hp = [ 1, r ].max
+
+    @foci = {}
+    count = c[:levels][0][:foci]
+    while @foci.count < count do
+      f = pick(@foci_source)
+      n = f[:name]
+      l = @foci[n]; next if l == 2
+      @foci[n] = (l || 0) + 1
+    end
   end
 
   def pick_a_skill

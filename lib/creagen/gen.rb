@@ -21,6 +21,8 @@ module Creagen
           .shuffle(random: c.rnd)
           .first
 
+      c.foci_source = YAML.load_file(File.join(__dir__, 'aac_foci.yaml'))
+
       c.klass =
         klasses
           .find { |k|
