@@ -34,9 +34,11 @@ module AacOakenHide
   end
 end
 
-AacPolymath = lambda do |character|
+AacGrowAnySkill = lambda do |character|
   character.send(:grow_any_skill)
 end
+AacPolymath = AacGrowAnySkill
+AacSpecialist = AacGrowAnySkill
 
 AacWrestler = lambda do |character|
   # The character unarmed Punch attack does a base of 1d6 damage and
@@ -65,7 +67,7 @@ end
   { name: 'Polymath', lambda: AacPolymath },
   { name: 'Rider', skills: %w[ Ride ] },
   { name: 'Scop-wise', skills: %w[ Perform ] },
-  { name: 'Specialist', skills: [ 'Any Skill' ] },
+  { name: 'Specialist', lambda: AacSpecialist },
   { name: 'Strongbow', skills: %w[ Shoot ] },
   { name: 'Wrestler', lambda: AacWrestler },
 ]
