@@ -1,5 +1,5 @@
 
-class Creagen::Creature
+class Histrion::Creature
 
   SKILLS = %w[
     Administer Connect Convince Craft Exert Heal Hunt Know Lead Notice Perform
@@ -61,7 +61,7 @@ class Creagen::Creature
 
     @opts = opts
 
-    dice = Creagen::Dice.new('3d6')
+    dice = Histrion::Dice.new('3d6')
 
     self.str = dice.roll
     self.con = dice.roll

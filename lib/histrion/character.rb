@@ -1,5 +1,5 @@
 
-class Creagen::Character < Creagen::Creature
+class Histrion::Character < Histrion::Creature
 
   #def initialize
   #  super
@@ -40,7 +40,7 @@ class Creagen::Character < Creagen::Creature
     # hit points
 
     @hd = l0[:hp]
-    r = Creagen.roll(@hd)
+    r = Histrion.roll(@hd)
     r = r + con_mod * 1
     @hp = [ 1, r ].max
 

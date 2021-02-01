@@ -1,5 +1,5 @@
 
-# creagen
+# histrion
 
 A character and creature generator.
 

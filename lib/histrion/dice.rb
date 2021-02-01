@@ -1,5 +1,5 @@
 
-module Creagen
+module Histrion
 
   class << self
 
@@ -25,7 +25,7 @@ module Creagen
 
     def roll(s)
 
-      Creagen::Dice.new(s).roll
+      Histrion::Dice.new(s).roll
     end
   end
 
@@ -41,7 +41,7 @@ module Creagen
       @dice.inject(0) { |r, d|
         if d.is_a?(Array)
           count, sides = d
-          (count || 1).times { r = r + Creagen.rand(1, sides) }
+          (count || 1).times { r = r + Histrion.rand(1, sides) }
         else
           r = r + d
         end

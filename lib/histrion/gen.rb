@@ -1,5 +1,5 @@
 
-module Creagen
+module Histrion
 
   class Options
 
@@ -94,7 +94,7 @@ module Creagen
 
     def make_character(opts)
 
-      c = Creagen::Character.new(opts)
+      c = Histrion::Character.new(opts)
 
       c.background =
         opts.random_background
