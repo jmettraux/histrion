@@ -1,66 +1,121 @@
 
 module Creagen
 
-  FOCI =
-    Kernel.eval(File.read(File.join(__dir__, 'aac_foci.rb')))
-  WEAPONS =
-    YAML.load_file(File.join(__dir__, 'aac_weapons.yaml'))
-      .inject({}) { |h, w| h[w[:nick]] = w; h }
+  class Options
+
+    attr_reader :rnd
+    attr_reader :count
+    attr_reader :foci, :weapons, :classes, :backgrounds, :names
+
+    def initialize
+
+      @rnd = Random.new
+
+      @count = 1
+      @minuses = []
+      @strings = []
+
+      ARGV.each do |a|
+        case a
+        when /^\d+/
+          @count = a.to_i
+        when /^-(.+)$/
+          @minuses << $1.downcase
+        else
+          @strings << a.downcase
+        end
+      end
+    end
+
+    def random_background
+
+      YAML.load_file(find_path(Dir[path('*_backgrounds.yaml')]))
+        .shuffle(random: @rnd)
+        .first
+    end
+
+    def random_name
+
+      File.readlines(find_path(Dir[path('*_male_names.txt')]))
+        .collect(&:strip)
+        .select { |l| l.length > 0 && l[0, 1] != '#' }
+        .shuffle(random: @rnd)
+        .first
+    end
+
+    def klasses
+
+      @klasses ||=
+        YAML.load_file(find_path(Dir[path('*_classes.yaml')]))
+          .reject { |c| @minuses.include?(c[:name].downcase) }
+    end
+
+    def foci
+
+      @foci ||=
+        Kernel.eval(File.read(find_path(Dir[path('*_foci.rb')])))
+    end
+
+    def weapons
+
+      @weapons ||=
+        YAML.load_file(find_path(Dir[path('*_weapons.yaml')]))
+          .reject { |c| @minuses.include?(c[:nick].downcase) }
+          .inject({}) { |h, w| h[w[:nick]] = w; h }
+    end
+
+    protected
+
+    def find_path(paths)
+
+      paths = paths.sort
+      path = paths
+        .find { |pa|
+          pfx = File.basename(pa).split('_').first
+          @strings.empty? ? true : @strings.include?(pfx) }
+      path || paths.first
+    end
+
+    def path(fname); File.join(__dir__, fname); end
+  end
 
   class << self
 
     def generate
 
-      count = 1
+      opts = Options.new
 
-      ARGV.each do |a|
-        if a.match?(/^\d+/)
-          count = a.to_i
-        end
-      end
-
-      count.times do
+p opts
+      opts.count.times do
 
         #puts
-        puts make_character.to_table
+        puts make_character(opts).to_table
       end
     end
 
-    def make_character
+    def make_character(opts)
 
-      klasses = YAML.load_file(File.join(__dir__, 'aac_classes.yaml'))
-
-      c = Creagen::Character.new
+      c = Creagen::Character.new(opts)
 
       c.background =
-        YAML.load_file(path('aac_backgrounds.yaml'))
-          .shuffle(random: c.rnd)
-          .first
+        opts.random_background
 
       c.name =
-        File.readlines(path('norse_male_names.txt'))
-          .collect(&:strip)
-          .select { |l| l.length > 0 && l[0, 1] != '#' }
-          .shuffle(random: c.rnd)
-          .first
+        opts.random_name
 
       c.klass =
-        klasses
+        opts.klasses
           .find { |k|
             att = k[:attribute]
             mod = att ? c.mod(att) : -3
             mod > 0 } ||
-        klasses
-          .shuffle(random: c.rnd)
+        opts.klasses
+          .shuffle(random: opts.rnd)
           .first
 
       c.pick_a_skill
 
       c
     end
-
-    protected
-
-    def path(fname); File.join(__dir__, fname); end
   end
 end

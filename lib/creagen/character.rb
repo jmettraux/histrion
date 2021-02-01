@@ -16,7 +16,7 @@ class Creagen::Character < Creagen::Creature
       "apply_background_#{meth}" :
       [ :apply_background_quick,
         :apply_background_learn,
-        :apply_background_roll ].shuffle(random: @rnd).first
+        :apply_background_roll ].shuffle(random: @opts.rnd).first
 
     self.send(meth, b)
   end
@@ -52,7 +52,7 @@ class Creagen::Character < Creagen::Creature
       #
     while @foci.count < count do
 
-      f = pick(Creagen::FOCI)
+      f = pick(@opts.foci)
       n = f[:name]
       l = @foci[n]; next if l == 2
       l = @foci[n] = (l || 0) + 1
@@ -73,9 +73,9 @@ class Creagen::Character < Creagen::Creature
     @weapons += c[:weapons]
       .collect { |e|
         if e.is_a?(Array)
-          Creagen::WEAPONS[pick(e)]
+          @opts.weapons[pick(e)]
         else
-          Creagen::WEAPONS[e]
+          @opts.weapons[e]
         end.dup }
       .compact
   end
@@ -102,7 +102,7 @@ class Creagen::Character < Creagen::Creature
 
     skills = []
     while skills.count < 2
-      s = b[:learning].shuffle(random: @rnd).first
+      s = b[:learning].shuffle(random: @opts.rnd).first
       skills << s unless s.start_with?('Any ')
     end
 
@@ -114,7 +114,7 @@ class Creagen::Character < Creagen::Creature
     3.times do
       self.send(
         [ :apply_background_roll_growth, :apply_background_roll_learning ]
-          .shuffle(random: @rnd)
+          .shuffle(random: @opts.rnd)
           .first,
         b)
     end

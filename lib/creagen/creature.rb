@@ -57,9 +57,9 @@ class Creagen::Creature
 
   def score(k); self.send(k.to_s[0, 3]); end
 
-  def initialize
+  def initialize(opts)
 
-    @rnd = Random.new
+    @opts = opts
 
     dice = Creagen::Dice.new('3d6')
 
@@ -320,6 +320,6 @@ class Creagen::Creature
     true
   end
 
-  def pick(a); a.shuffle(random: @rnd).first; end
+  def pick(a); a.shuffle(random: @opts.rnd).first; end
 end
 
