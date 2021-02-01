@@ -165,32 +165,32 @@ class Creagen::Creature
 
       t << [
         '',
-        "STR  #{str_s} (#{str_mod_s})",
+        { value: "STR  #{str_s} (#{str_mod_s})", alignment: :center },
         skills[0],
         rig("HP #{hp}") ]
       t << [
         { value: "Physical #{phy_save}", alignment: :right },
-        "CON  #{con_s} (#{con_mod_s})",
+        { value: "CON  #{con_s} (#{con_mod_s})", alignment: :center },
         skills[1],
         @skills['Magic'] ? rig("WP #{wp}") : '' ]
       t << [
         '',
-        "DEX  #{dex_s} (#{dex_mod_s})",
+        { value: "DEX  #{dex_s} (#{dex_mod_s})", alignment: :center },
         skills[2],
         "Ini #{dex_mod_s}" ]
       t << [
         { value: "Evasion #{eva_save}", alignment: :right },
-        "INT  #{int_s} (#{int_mod_s})",
+        { value: "INT  #{int_s} (#{int_mod_s})", alignment: :center },
         skills[3],
         rig("naked AC #{naked_ac}") ]
       t << [
         '',
-        "WIS  #{wis_s} (#{wis_mod_s})",
+        { value: "WIS  #{wis_s} (#{wis_mod_s})", alignment: :center },
         skills[4],
         rig("AC #{ac}") ]
       t << [
         { value: "Mental #{men_save}", alignment: :right },
-        "CHA  #{cha_s} (#{cha_mod_s})",
+        { value: "CHA  #{cha_s} (#{cha_mod_s})", alignment: :center },
         skills[5],
         rig("shield AC #{shield_ac}") ]
       t << [

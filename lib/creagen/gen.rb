@@ -85,7 +85,6 @@ module Creagen
 
       opts = Options.new
 
-p opts
       opts.count.times do
 
         #puts
