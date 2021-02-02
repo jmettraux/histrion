@@ -219,13 +219,13 @@ class Histrion::Creature
         end
         if w[:attributes].include?('dexterity')
           if r = w[:range]
+            r0, r1 = r.collect { |e| FeetExpander.exp(e) }
             nic = w[:nick][0, nwidth]
-            att = sgn(stab + dex_mod + ab)
+            att0 = stab + dex_mod + ab
+            att1 = att0 - 2
             dmg = w[:damage] + dex_mod_s
-            #ran = r.collect { |e| FeetExpander.exp(e) }.join('  ')
-            ran = "%-19s  %-19s" % r.collect { |e| FeetExpander.exp(e) }
-            v = "%#{nwidth}s  DEX  %s  dmg %s         %s" % [
-              nic, att, dmg, ran ]
+            v = "%#{nwidth}s  DEX  %s -> %s  %s -> %s  dmg %s" % [
+              nic, sgn(att0), r0, sgn(att1), r1, dmg ]
             rws << [ { value: v, colspan: 4 } ]
           else
             nic = w[:nick][0, nwidth]
