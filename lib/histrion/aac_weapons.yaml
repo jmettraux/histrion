@@ -9,8 +9,8 @@
   - 2
   - 13
   :range:
-  - 10
-  - 30
+  - 20
+  - 60
 - :name: Club
   :nick: Club
   :damage: 1d4
@@ -60,5 +60,5 @@
   - dexterity
   :shock: 
   :range:
-  - 50
+  - 60
   - 300
