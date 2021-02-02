@@ -48,6 +48,11 @@ AacWrestler = lambda do |character|
     damage: '1d6', shock: [ 1, 15 ] }
 end
 
+AacLuckyRequisite = lambda do |character|
+
+  !! character.modifiers.values.find { |m| m < 0 }
+end
+
 [
   { name: 'Alert', skills: %w[ Notice ] },
   { name: 'As Our Power Lessens' },
@@ -60,7 +65,7 @@ end
   { name: 'Harder Be Purpose' },
   { name: "Healer's Hand", skills: %w[ Heal ] },
   { name: 'Impervious Defense', module: AacImperviousDefense },
-  { name: 'Lucky' },
+  { name: 'Lucky', requisite: AacLuckyRequisite },
   { name: 'Manslayer', skills: [ %w[ Stab Punch ] ] },
   { name: 'More Proud the Spirit', module: AacTwoExtraHitPoints },
   { name: 'Oaken Hide', module: AacOakenHide },

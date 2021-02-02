@@ -50,9 +50,14 @@ class Histrion::Character < Histrion::Creature
     @foci = {}
     count = l0[:foci]
       #
-    while @foci.count < count do
+    100.times do
+
+      break if @foci.count >= count
 
       f = pick(@opts.foci)
+
+      r = f[:requisite]; next if r && ! r[self]
+
       n = f[:name]
       l = @foci[n]; next if l == 2
       l = @foci[n] = (l || 0) + 1

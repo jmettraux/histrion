@@ -57,6 +57,15 @@ class Histrion::Creature
 
   def score(k); self.send(k.to_s[0, 3]); end
 
+  def modifiers
+    { strength: str_mod, constitution: con_mod, dexterity: dex_mod,
+      intelligence: int_mod, wisdom: wis_mod, charisma: cha_mod }
+  end
+  def mods
+    { str: str_mod, con: con_mod, dex: dex_mod,
+      int: int_mod, wis: wis_mod, cha: cha_mod }
+  end
+
   def initialize(opts)
 
     @opts = opts
