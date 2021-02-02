@@ -159,7 +159,7 @@ class Histrion::Creature
             .collect { |k, v| "#{k}#{v > 1 ? " #{v}" : ''}" }
             .join(', '),
             colspan: 3 },
-          FeetExpander.expand('30 feet') ] #'30ft_9m_6sq_t' ]
+          'Mov ' + FeetExpander.expand('30 feet') ] #'30ft_9m_6sq_t' ]
         t << :separator
       end
 
