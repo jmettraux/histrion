@@ -91,7 +91,51 @@ class Histrion::Character < Histrion::Creature
     end
   end
 
+  def add_nick
+
+    @nick =
+      case Histrion.roll('1d6')
+      when 1, 2 then add_son_nick
+      when 3, 4 then add_att_nick
+      when 5, 6 then add_skill_nick
+      #else add_foci_nick
+      end
+  end
+
   protected
+
+  def add_son_nick
+
+    "son of #{@opts.random_name}"
+  end
+
+  def add_att_nick
+
+    if str > 12 then 'the strong'
+    elsif dex > 12 then 'the dextrous'
+    elsif con > 12 then 'the tough'
+    elsif cha > 12 then 'the flamboyant'
+    elsif int > 12 then 'the smart'
+    elsif wis > 12 then 'the wise'
+    else nil
+    end
+  end
+
+  def add_skill_nick
+
+    sks = @skills.keys
+    s = %w[ Shoot Sneak Punch Craft Hunt Heal Survive Trade ]
+      .shuffle(random: @opts.rnd)
+      .find { |n| sks.include?(n) }
+
+    s ? "the #{s.downcase}#{s.match?(/e$/) ? 'r' : 'er'}" : nil
+  end
+
+  def add_foci_nick
+
+    #p @foci
+    nil
+  end
 
   def apply_background_quick(b)
 

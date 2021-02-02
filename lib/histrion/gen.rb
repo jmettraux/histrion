@@ -37,7 +37,7 @@ module Histrion
     def random_name
 
       File.readlines(find_path(Dir[path('*_male_names.txt')]))
-        .collect(&:strip)
+        .collect { |e| e.strip.capitalize }
         .select { |l| l.length > 0 && l[0, 1] != '#' }
         .shuffle(random: @rnd)
         .first
@@ -87,7 +87,8 @@ module Histrion
 
       opts.count.times do
 
-        #puts
+        puts
+        puts
         puts make_character(opts).to_table
       end
     end
@@ -113,6 +114,8 @@ module Histrion
           .first
 
       c.pick_a_skill
+
+      c.add_nick if Histrion.roll('1d6') > 2
 
       c
     end

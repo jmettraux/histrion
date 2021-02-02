@@ -132,8 +132,8 @@ class Histrion::Creature
 
       t.style = {
         width: 82,
-        border_left: false, border_right: false }
-        #border_bottom: false }
+        border_left: false, border_right: false,
+        border_i: '.' }
 
       m = @skills['Magic']
       magic_skills = m ? [ "Magic-#{m}", nil ] : []
@@ -146,8 +146,12 @@ class Histrion::Creature
         (@skills.keys - %w[ Stab Shoot Punch Magic ])
           .map { |k| "#{k}-#{@skills[k]}" }
 
+      n = (name || '').capitalize
+      n = "#{n} #{@nick}" if @nick
+      n = n[0, 39]
+
       t << [
-        { value: (name || '').upcase, colspan: 2 },
+        { value: n, colspan: 2 },
         background,
         "#{klass} #{level}" ]
 
