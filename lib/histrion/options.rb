@@ -4,7 +4,7 @@ module Histrion
   class Options
 
     attr_reader :rnd
-    attr_reader :count
+    attr_reader :count, :pluses, :minuses
     attr_reader :foci, :weapons, :classes, :backgrounds, :names
 
     def initialize
@@ -12,6 +12,7 @@ module Histrion
       @rnd = Random.new
 
       @count = 1
+      @pluses = []
       @minuses = []
       @strings = []
 
@@ -19,6 +20,8 @@ module Histrion
         case a
         when /^\d+/
           @count = a.to_i
+        when /^\+(.+)$/
+          @pluses << $1.downcase
         when /^-(.+)$/
           @minuses << $1.downcase
         else

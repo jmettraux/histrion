@@ -22,8 +22,8 @@ module Histrion
       c.background =
         opts.random_background
 
-      c.appearance =
-        opts.random_appearance
+      c.appearance = opts.random_appearance \
+        unless opts.minuses.include?('appearance')
 
       c.name =
         opts.random_name
