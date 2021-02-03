@@ -14,6 +14,8 @@ class Histrion::Creature
   attr_accessor :strength, :constitution, :dexterity
   attr_accessor :intelligence, :wisdom, :charisma
 
+  attr_accessor :appearance
+
   attr_reader :hp
 
   attr_reader :skills, :weapons
@@ -163,6 +165,15 @@ class Histrion::Creature
         { value: n, colspan: 2 },
         background,
         "#{klass} #{level}" ]
+
+      if appearance
+        a = appearance
+          .collect { |k, v| v ? "#{v} #{k}" : nil }
+          .compact
+          .join(', ')
+        t << :separator
+        t << [ { value: a, colspan: 4 } ]
+      end
 
       t << :separator
 

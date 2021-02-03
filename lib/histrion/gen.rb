@@ -43,6 +43,18 @@ module Histrion
         .first
     end
 
+    def random_appearance
+
+      @appearance ||=
+        YAML.load_file(find_path(Dir[path('*_male_appearance.yaml')]))
+
+      @appearance.inject({}) { |h, (k, v)|
+        h[k] =
+          v.shuffle(random: @rnd).find { |e| ! @minuses.include?(e) } ||
+          'undefined'
+        h }
+    end
+
     def klasses
 
       @klasses ||=
@@ -99,6 +111,9 @@ module Histrion
 
       c.background =
         opts.random_background
+
+      c.appearance =
+        opts.random_appearance
 
       c.name =
         opts.random_name
