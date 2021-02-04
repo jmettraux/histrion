@@ -168,7 +168,7 @@ class Histrion::Creature
 
       if appearance
         a = appearance
-          .collect { |k, v| v ? "#{v} #{k}" : nil }
+          .collect { |k, v| v ? (k.to_s.match(/^_/) ? v : "#{v} #{k}") : nil }
           .compact
           .join(', ')
         t << :separator

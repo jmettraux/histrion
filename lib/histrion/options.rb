@@ -52,9 +52,7 @@ module Histrion
         YAML.load_file(find_path(Dir[path('*_male_appearance.yaml')]))
 
       @appearance.inject({}) { |h, (k, v)|
-        h[k] =
-          v.shuffle(random: @rnd).find { |e| ! @minuses.include?(e) } ||
-          'undefined'
+        h[k] = v.shuffle(random: @rnd).find { |e| ! @minuses.include?(e) }
         h }
     end
 
