@@ -21,6 +21,17 @@ class Histrion::Character < Histrion::Creature
     self.send(meth, b)
   end
 
+  def flat_morale
+
+    8 + (hd_i.to_f * 0.5).floor
+  end
+
+  def morale
+
+    @morale ||=
+      (flat_morale + Histrion.roll('1d3') - 1 + str_mod - wis_mod)
+  end
+
   def attack_bonus
 
     if @kla

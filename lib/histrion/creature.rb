@@ -14,6 +14,8 @@ class Histrion::Creature
   attr_accessor :strength, :constitution, :dexterity
   attr_accessor :intelligence, :wisdom, :charisma
 
+  attr_writer :morale
+
   attr_accessor :appearance
 
   attr_reader :hp
@@ -83,6 +85,16 @@ class Histrion::Creature
 
     @skills = {}
     @weapons = []
+  end
+
+  def hd_i
+
+    @hd.match(/^(\d+)d/)[1].to_i
+  end
+
+  def morale
+
+    @morale || 6
   end
 
   def name
@@ -220,8 +232,13 @@ class Histrion::Creature
       t << [
         { value: "Luck #{luk_save}", alignment: :right },
         '',
-        (skills[6..-1] || []).join("\n"),
+        skills[6],
         "Att #{sgn(ab)}" ]
+      t << [
+        '',
+        '',
+        (skills[7..-1] || []).join("\n"),
+        { value: "Morale #{morale}", alignment: :right } ]
 
       t << :separator
 
