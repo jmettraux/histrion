@@ -28,8 +28,15 @@ class Histrion::Character < Histrion::Creature
 
   def morale
 
-    @morale ||=
-      (flat_morale + Histrion.roll('1d3') - 1 + str_mod - wis_mod)
+    @morale ||= (
+      flat_morale +
+      Histrion.roll('1d3') - 1 +
+      str_mod - wis_mod +
+      case @background
+      when /noble/i, /religious/i then 1
+      when /slave/i, /wanderer/i then -1
+      else 0
+      end)
   end
 
   def attack_bonus
