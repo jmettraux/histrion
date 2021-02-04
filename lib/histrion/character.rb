@@ -111,7 +111,14 @@ class Histrion::Character < Histrion::Creature
 
   def add_son_nick
 
-    "son of #{@opts.random_name}"
+    if @background.match?(/noble/i)
+      case Histrion.roll('1d6')
+      when 1, 2 then "of #{@opts.random_place_name}"
+      else "son of #{@opts.random_name}"
+      end
+    else
+      "son of #{@opts.random_name}"
+    end
   end
 
   def add_att_nick

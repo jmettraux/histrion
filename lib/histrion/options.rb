@@ -46,6 +46,15 @@ module Histrion
         .first
     end
 
+    def random_place_name
+
+      File.readlines(find_path(Dir[path('*_place_names.txt')]))
+        .collect { |e| e.strip.capitalize }
+        .select { |l| l.length > 0 && l[0, 1] != '#' }
+        .shuffle(random: @rnd)
+        .first
+    end
+
     def random_appearance
 
       @appearance ||=
