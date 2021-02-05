@@ -153,7 +153,7 @@ class Histrion::Creature
         border_left: false, border_right: false,
         border_i: '.' }
 
-      m = @skills['Magic']
+      m = @skills[@opts.magic_skill_name]
       magic_skills = m ? [ "#{@opts.magic_skill_name}-#{m}", nil ] : []
 
       skills =
@@ -163,7 +163,7 @@ class Histrion::Creature
           .reject { |e| e.match(/-2/) } +
         [ nil ] +
         magic_skills +
-        (@skills.keys - %w[ Stab Shoot Punch Magic ])
+        (@skills.keys - @opts.combat_skills)
           .map { |k| "#{k}-#{@skills[k]}" }
 
       n = (name || '').capitalize
