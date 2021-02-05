@@ -130,20 +130,54 @@ class Histrion::Character < Histrion::Creature
 
   protected
 
-# A character cannot develop skills beyond level-4.
-#
-# | New Skill Level | Skill Point Cost | Min Char Level |
-# |-----------------|------------------|----------------|
-# | 0               | 1                | 1              |
-# | 1               | 2                | 1              |
-# | 2               | 3                | 3              |
-# | 3               | 4                | 6              |
-# | 4               | 5                | 9              |
   def consume_skill_points
 
-# TODO
-    21.times do
+    caster = @skills.keys.include?(@opts.magic_skill_name)
+    magic = @opts.magic_skill_name
+
+    7.times do
+
+      skill_name =
+        if caster
+          pick(@opts.skills, [ magic ] * 5)
+        else
+          pick(@opts.skills_without_magic)
+        end
+      skill_cost =
+        compute_skill_cost(skill_name)
+      if skill_cost <= @spare_skill_points
+        @spare_skill_points -= skill_cost
+        @skills[skill_name] = (@skills[skill_name] || -1) + 1
+      end
+      break if @spare_skill_points < 1
     end
+  end
+
+  # A character cannot develop skills beyond level-4.
+  #
+  # | New Skill Level | Skill Point Cost | Min Char Level |
+  # |-----------------|------------------|----------------|
+  # | 0               | 1                | 1              |
+  # | 1               | 2                | 1              |
+  # | 2               | 3                | 3              |
+  # | 3               | 4                | 6              |
+  # | 4               | 5                | 9              |
+  #
+  def compute_skill_cost(skill_name)
+
+    max_skill_level =
+      case level
+      when 1..2 then 1
+      when 3..5 then 2
+      when 6..8 then 3
+      else 4; end
+
+    current_level = @skills[skill_name] || -1
+    new_level = current_level + 1
+
+    return 9999 if new_level > max_skill_level # making it too costly
+
+    new_level + 1
   end
 
   def pick_focus

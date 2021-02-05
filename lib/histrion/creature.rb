@@ -154,7 +154,7 @@ class Histrion::Creature
         border_i: '.' }
 
       m = @skills['Magic']
-      magic_skills = m ? [ "Magic-#{m}", nil ] : []
+      magic_skills = m ? [ "#{@opts.magic_skill_name}-#{m}", nil ] : []
 
       skills =
         [ "#{@opts.stab_skill_name}-#{stab}",
@@ -361,6 +361,12 @@ class Histrion::Creature
     true
   end
 
-  def pick(a); a.shuffle(random: @opts.rnd).first; end
+  def pick(*as)
+
+    as
+      .inject([]) { |r, a| r.concat(a) }
+      .shuffle(random: @opts.rnd)
+      .first
+  end
 end
 

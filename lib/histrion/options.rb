@@ -36,18 +36,41 @@ module Histrion
     def stab_skill_name; skills[0]; end
     def shoot_skill_name; skills[1]; end
     def punch_skill_name; skills[2]; end
+    def magic_skill_name; skills[3]; end
 
     def skills
 
       @skills ||=
         File.readlines(find_path(Dir[path('*_skills.txt')]))
           .collect(&:strip)
-          .select { |l| l.length > 0 && l[0, 1] != '#' }
+          .select { |l|l.length > 0 && l[0, 1] != '#' }
+    end
+
+    def combat_skills
+
+      skills[0, 4]
+    end
+
+    def non_combat_skills
+
+      skills[4..-1]
+    end
+
+    def skills_without_magic
+
+      skills - [ magic_skill_name ]
     end
 
     def random_skill
 
-      skills[3..-1]
+      skills
+        .shuffle(random: @rnd)
+        .first
+    end
+
+    def random_non_combat_skill
+
+      non_combat_skills
         .shuffle(random: @rnd)
         .first
     end

@@ -1,6 +1,12 @@
+#
+# skills 0 to 3 are combat skills
+# skill 3 is magic (considered combat, broadly)
+#
 Spear
 Shoot
 Smite
+#
+Magic
 #
 Connect
 Craft
