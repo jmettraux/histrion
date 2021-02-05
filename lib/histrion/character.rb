@@ -42,12 +42,17 @@ class Histrion::Character < Histrion::Creature
   def attack_bonus
 
     if @kla
-      @kla[:levels][level][:attack]
+      klass_level[:attack]
     else
       fail NotImplementedError.new("(HD / 2 rounded up)")
     end
   end
   alias ab attack_bonus
+
+  def foci_level_count
+
+    @foci.inject(0) { |r, (_, v)| r + v }
+  end
 
   def klass=(c)
 
@@ -58,36 +63,16 @@ class Histrion::Character < Histrion::Creature
     # hit points
 
     @hd = l0[:hp]
-    r = Histrion.roll(@hd)
-    r = r + con_mod * 1
-    @hp = [ 1, r ].max
+    hp = Histrion.roll(@hd) + con_mod
+    @hp = [ hp, 1 ].max
 
     #
     # foci
 
     @foci = {}
-    count = l0[:foci]
       #
-    100.times do
-
-      break if @foci.count >= count
-
-      f = pick(@opts.foci)
-
-      r = f[:requisite]; next if r && ! r[self]
-
-      n = f[:name]
-      l = @foci[n]; next if l == 2
-      l = @foci[n] = (l || 0) + 1
-
-      if l == 1
-        m = f[:module]; self.singleton_class.include(m) if m
-        v = f[:lambda]; v[self] if v
-        (f[:skills] || []).each do |s|
-          s = pick(s) if s.is_a?(Array)
-          inc_skill(s)
-        end
-      end
+    while foci_level_count < l0[:foci]
+      pick_focus
     end
 
     #
@@ -125,7 +110,66 @@ class Histrion::Character < Histrion::Creature
       end
   end
 
+  def level_up
+
+    @level = level + 1
+
+    new_hp = Histrion.roll(klass_level[:hp]) + level * con_mod
+    @hp = [ hp + 1, new_hp ].max
+
+    lc1 = foci_level_count + (klass_level[:foci] || 0)
+
+    while foci_level_count < lc1
+      pick_focus
+    end
+
+    @spare_skill_points = (@spare_skill_points || 0) + 3
+
+    consume_skill_points
+  end
+
   protected
+
+# A character cannot develop skills beyond level-4.
+#
+# | New Skill Level | Skill Point Cost | Min Char Level |
+# |-----------------|------------------|----------------|
+# | 0               | 1                | 1              |
+# | 1               | 2                | 1              |
+# | 2               | 3                | 3              |
+# | 3               | 4                | 6              |
+# | 4               | 5                | 9              |
+  def consume_skill_points
+
+# TODO
+    21.times do
+    end
+  end
+
+  def pick_focus
+
+    f = pick(@opts.foci)
+
+    r = f[:requisite]; return if r && ! r[self]
+
+    n = f[:name]
+    l = @foci[n]; return if l == 2
+    l = @foci[n] = (l || 0) + 1
+
+    if l == 1
+      m = f[:module]; self.singleton_class.include(m) if m
+      v = f[:lambda]; v[self] if v
+      (f[:skills] || []).each do |s|
+        s = pick(s) if s.is_a?(Array)
+        inc_skill(s)
+      end
+    end
+  end
+
+  def klass_level
+
+    @kla[:levels][level - 1]
+  end
 
   def add_son_nick
 

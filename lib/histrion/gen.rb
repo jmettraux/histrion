@@ -42,6 +42,9 @@ module Histrion
 
       c.add_nick if Histrion.roll('1d6') > 2
 
+      (opts.random_level - 1)
+        .times { c.level_up }
+
       c
     end
   end

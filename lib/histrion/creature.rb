@@ -189,15 +189,17 @@ class Histrion::Creature
 
       t << :separator
 
-      if @foci
-        t << [
-          { value: @foci
-            .collect { |k, v| "#{k}#{v > 1 ? " #{v}" : ''}" }
-            .join(', '),
-            colspan: 3 },
-          'Mov ' + FeetExpander.expand('30 feet') ] #'30ft_9m_6sq_t' ]
-        t << :separator
+      ml = Histrion::Mline.new(58)
+      @foci.each do |k, v|
+        ml << ', ' if ml.any?
+        ml << "#{k}#{v > 1 ? " #{v}" : ''}"
       end
+
+      t << [
+        { value: ml.to_s, colspan: 3 },
+        'Mov ' + FeetExpander.expand('30 feet') ] #'30ft_9m_6sq_t' ]
+
+      t << :separator
 
       t << [
         '',

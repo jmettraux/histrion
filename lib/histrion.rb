@@ -8,6 +8,7 @@ require 'feet_expander'
 
 module Histrion; end
 
+require 'histrion/mline'
 require 'histrion/dice'
 require 'histrion/creature'
 require 'histrion/character'

@@ -15,11 +15,14 @@ module Histrion
       @pluses = []
       @minuses = []
       @strings = []
+      @levels = [ 1 ]
 
       ARGV.each do |a|
         case a
-        when /^\d+/
+        when /^\d+$/
           @count = a.to_i
+        when /^(\d+)-(\d+)$/
+          @levels = ($1.to_i..$2.to_i).to_a
         when /^\+(.+)$/
           @pluses << $1.downcase
         when /^-(.+)$/
@@ -84,6 +87,11 @@ module Histrion
         YAML.load_file(find_path(Dir[path('*_weapons.yaml')]))
           .reject { |c| @minuses.include?(c[:nick].downcase) }
           .inject({}) { |h, w| h[w[:nick]] = w; h }
+    end
+
+    def random_level
+
+      @levels.shuffle(random: @rnd).first
     end
 
     protected
