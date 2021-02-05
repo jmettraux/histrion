@@ -1,13 +1,8 @@
 
 class Histrion::Creature
 
-  SKILLS = %w[
-    Administer Connect Convince Craft Exert Heal Hunt Know Lead Notice Perform
-    Pray Ride Sail Sneak Survive Trade Work ]
-  PHYSICAL_ATTRIBUTES = %w[
-    strength constitution dexterity ]
-  MENTAL_ATTRIBUTES = %w[
-    intelligence wisdom charisma ]
+  PHYSICAL_ATTRIBUTES = %w[ strength constitution dexterity ]
+  MENTAL_ATTRIBUTES = %w[ intelligence wisdom charisma ]
 
   attr_accessor :name
 
@@ -162,7 +157,9 @@ class Histrion::Creature
       magic_skills = m ? [ "Magic-#{m}", nil ] : []
 
       skills =
-        [ "Stab-#{stab}", "Shoot-#{shoot}", "Punch-#{punch}" ]
+        [ "#{@opts.stab_skill_name}-#{stab}",
+          "#{@opts.shoot_skill_name}-#{shoot}",
+          "#{@opts.punch_skill_name}-#{punch}" ]
           .reject { |e| e.match(/-2/) } +
         [ nil ] +
         magic_skills +
@@ -341,7 +338,7 @@ class Histrion::Creature
 
   def grow_any_skill
 
-    inc_skill(pick(SKILLS))
+    inc_skill(@opts.random_skill)
   end
 
   def apply_background_roll_learning(b)

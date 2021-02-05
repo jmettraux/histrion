@@ -33,6 +33,25 @@ module Histrion
       end
     end
 
+    def stab_skill_name; skills[0]; end
+    def shoot_skill_name; skills[1]; end
+    def punch_skill_name; skills[2]; end
+
+    def skills
+
+      @skills ||=
+        File.readlines(find_path(Dir[path('*_skills.txt')]))
+          .collect(&:strip)
+          .select { |l| l.length > 0 && l[0, 1] != '#' }
+    end
+
+    def random_skill
+
+      skills[3..-1]
+        .shuffle(random: @rnd)
+        .first
+    end
+
     def random_background
 
       YAML.load_file(find_path(Dir[path('*_backgrounds.yaml')]))
