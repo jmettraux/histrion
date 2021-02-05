@@ -148,7 +148,7 @@ module Histrion
       path || paths.first
     end
 
-    def path(fname); File.join(__dir__, fname); end
+    def path(fname); File.join('var', fname); end
   end
 end
 
