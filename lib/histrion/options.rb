@@ -33,32 +33,54 @@ module Histrion
       end
     end
 
-    def stab_skill_name; skills[0]; end
-    def shoot_skill_name; skills[1]; end
-    def punch_skill_name; skills[2]; end
-    def magic_skill_name; skills[3]; end
+    def skill_map
+
+      @skill_map ||=
+        YAML.load_file(find_path(Dir[path('*_skills.yaml')]))
+          .inject({}) { |h, (k, v)| h[k] = v || k; h }
+    end
+
+    def skill_pam
+
+      @skill_pam ||=
+        skill_map
+          .inject({}) { |h, (k, v)| h[v] = k; h }
+    end
+
+    def normalize_skill_name(n)
+
+      skill_map[n] ||
+      (skill_map.values.include?(n) ? n : nil) ||
+      fail(ArgumentError.new("unknown skill name #{n.inspect}"))
+    end
+
+    def localize_skill_name(n)
+
+      skill_pam[n] ||
+      n
+    end
+    alias lsn localize_skill_name
 
     def skills
 
-      @skills ||=
-        File.readlines(find_path(Dir[path('*_skills.txt')]))
-          .collect(&:strip)
-          .select { |l|l.length > 0 && l[0, 1] != '#' }
+      skill_map.values
     end
+
+    COMBAT_SKILLS = %w[ Stab Shoot Punch ]
 
     def combat_skills
 
-      skills[0, 4]
+      COMBAT_SKILLS
     end
 
     def non_combat_skills
 
-      skills[4..-1]
+      skills - COMBAT_SKILLS
     end
 
     def skills_without_magic
 
-      skills - [ magic_skill_name ]
+      skills - %w[ Magic ]
     end
 
     def random_skill

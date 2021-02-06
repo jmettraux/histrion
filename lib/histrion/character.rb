@@ -132,14 +132,13 @@ class Histrion::Character < Histrion::Creature
 
   def consume_skill_points
 
-    caster = @skills.keys.include?(@opts.magic_skill_name)
-    magic = @opts.magic_skill_name
+    caster = @skills.keys.include?('Magic')
 
     7.times do
 
       skill_name =
         if caster
-          pick(@opts.skills, [ magic ] * 5)
+          pick(@opts.skills, [ 'Magic' ] * 5)
         else
           pick(@opts.skills_without_magic)
         end

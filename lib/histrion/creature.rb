@@ -153,21 +153,19 @@ class Histrion::Creature
         border_left: false, border_right: false,
         border_i: '.' }
 
-      m = @skills[@opts.magic_skill_name]
-      magic_skills = m ? [ "#{@opts.magic_skill_name}-#{m}", nil ] : []
+      m = @skills['Magic']
+      magic_skills = m ? [ "#{@opts.lsn('Magic')}-#{m}", nil ] : []
 
-# FIXME
-#p @opts.combat_skills
       skills =
-        [ "#{@opts.stab_skill_name}-#{stab}",
-          "#{@opts.shoot_skill_name}-#{shoot}",
-          "#{@opts.punch_skill_name}-#{punch}" ]
+        [ "#{@opts.lsn('Stab')}-#{stab}",
+          "#{@opts.lsn('Shoot')}-#{shoot}",
+          "#{@opts.lsn('Punch')}-#{punch}" ]
           .reject { |e| e.match(/-2/) } +
         [ nil ] +
         magic_skills +
         (@skills.keys - @opts.combat_skills)
           .sort
-          .map { |k| "#{k}-#{@skills[k]}" }
+          .map { |k| "#{@opts.lsn(k)}-#{@skills[k]}" }
       mxw = @opts.skills.inject(0) { |l, e| [ l, (e || '').size ].max } + 2
       l2 = (skills.length.to_f * 0.5).ceil
       sks0, sks1 = skills[0, l2], skills[l2 + 1..-1]
@@ -361,11 +359,13 @@ class Histrion::Creature
 
   def inc_skill(s)
 
-    l = @skills[s] || -1
+    s1 = @opts.normalize_skill_name(s)
+
+    l = @skills[s1] || -1
 
     return false if l > 0
 
-    @skills[s] = l + 1
+    @skills[s1] = l + 1
 
     true
   end
