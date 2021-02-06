@@ -173,6 +173,18 @@ class Histrion::Creature
         skills[0, l2].zip(skills[l2..-1])
           .collect { |x| "%-#{mxw}s  %-#{mxw}s" % x }
 
+      hp_col = []; w = 15
+      hp_col << ("  %#{w}s" % "HP #{hp}")
+      hp_col << ("  %#{w}s" % "WP #{wp}") if @skills['Magic']
+      hp_col << ("  %-#{w}s" % "Ini #{dex_mod_s}")
+      hp_col << ("  %#{w}s" % "naked AC #{naked_ac}")
+      hp_col << ("  %#{w}s" % "AC #{ac}")
+      hp_col << ("  %#{w}s" % "shield AC #{shield_ac}")
+      hp_col << ("  %-#{w}s" % "Att #{sgn(ab)}")
+      hp_col << ("  %#{w}s" % "Morale #{morale}")
+        #
+        # :-(
+
       n = (name || '').capitalize
       n = "#{n} #{@nick}" if @nick
       n = n[0, 39]
@@ -209,42 +221,37 @@ class Histrion::Creature
         '',
         { value: "STR  #{str_s} (#{str_mod_s})", alignment: :center },
         skills[0],
-        rig("HP #{hp}") ]
+        hp_col[0] ]
       t << [
-        { value: "Physical #{phy_save}", alignment: :right },
+        rig("Physical #{phy_save}"),
         { value: "CON  #{con_s} (#{con_mod_s})", alignment: :center },
         skills[1],
-        @skills['Magic'] ? rig("WP #{wp}") : '' ]
+        hp_col[1] ]
       t << [
         '',
         { value: "DEX  #{dex_s} (#{dex_mod_s})", alignment: :center },
         skills[2],
-        "Ini #{dex_mod_s}" ]
+        hp_col[2] ]
       t << [
-        { value: "Evasion #{eva_save}", alignment: :right },
+        rig("Evasion #{eva_save}"),
         { value: "INT  #{int_s} (#{int_mod_s})", alignment: :center },
         skills[3],
-        rig("naked AC #{naked_ac}") ]
+        hp_col[3] ]
       t << [
         '',
         { value: "WIS  #{wis_s} (#{wis_mod_s})", alignment: :center },
         skills[4],
-        rig("AC #{ac}") ]
+        hp_col[4] ]
       t << [
-        { value: "Mental #{men_save}", alignment: :right },
+        rig("Mental #{men_save}"),
         { value: "CHA  #{cha_s} (#{cha_mod_s})", alignment: :center },
         skills[5],
-        rig("shield AC #{shield_ac}") ]
+        hp_col[5] ]
       t << [
-        { value: "Luck #{luk_save}", alignment: :right },
+        rig("Luck #{luk_save}"),
         '',
-        skills[6],
-        "Att #{sgn(ab)}" ]
-      t << [
-        '',
-        '',
-        (skills[7..-1] || []).join("\n"),
-        { value: "Morale #{morale}", alignment: :right } ]
+        (skills[6..-1] || []).join("\n"),
+        (hp_col[6..-1] || []).join("\n") ]
 
       t << :separator
 
@@ -308,9 +315,9 @@ class Histrion::Creature
 
   protected
 
-  def rig(v);
-    { value: v, alignment: :right }
-  end
+  def lft(v); { value: v, alignment: :left }; end
+  def rig(v); { value: v, alignment: :right }; end
+  def cnt(v); { value: v, alignment: :center }; end
 
   def sgn(i); i < 0 ? i.to_s : "+#{i}"; end
 
