@@ -156,6 +156,8 @@ class Histrion::Creature
       m = @skills[@opts.magic_skill_name]
       magic_skills = m ? [ "#{@opts.magic_skill_name}-#{m}", nil ] : []
 
+# FIXME
+#p @opts.combat_skills
       skills =
         [ "#{@opts.stab_skill_name}-#{stab}",
           "#{@opts.shoot_skill_name}-#{shoot}",
@@ -164,7 +166,14 @@ class Histrion::Creature
         [ nil ] +
         magic_skills +
         (@skills.keys - @opts.combat_skills)
+          .sort
           .map { |k| "#{k}-#{@skills[k]}" }
+      mxw = @opts.skills.inject(0) { |l, e| [ l, (e || '').size ].max } + 2
+      l2 = (skills.length.to_f * 0.5).ceil
+      sks0, sks1 = skills[0, l2], skills[l2 + 1..-1]
+      skills =
+        skills[0, l2].zip(skills[l2..-1])
+          .collect { |x| "%-#{mxw}s  %-#{mxw}s" % x }
 
       n = (name || '').capitalize
       n = "#{n} #{@nick}" if @nick
