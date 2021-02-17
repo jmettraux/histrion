@@ -67,10 +67,16 @@ module Histrion
     end
 
     COMBAT_SKILLS = %w[ Stab Shoot Punch ]
+    MAGIC_SKILLS = %w[ Magic ]
 
     def combat_skills
 
       COMBAT_SKILLS
+    end
+
+    def magic_skills
+
+      MAGIC_SKILLS
     end
 
     def non_combat_skills

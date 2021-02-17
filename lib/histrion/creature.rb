@@ -163,7 +163,7 @@ class Histrion::Creature
           .reject { |e| e.match(/-2/) } +
         [ nil ] +
         magic_skills +
-        (@skills.keys - @opts.combat_skills)
+        (@skills.keys - @opts.combat_skills - @opts.magic_skills)
           .sort
           .map { |k| "#{@opts.lsn(k)}-#{@skills[k]}" }
       mxw = @opts.skills.inject(0) { |l, e| [ l, (e || '').size ].max } + 2
