@@ -141,7 +141,7 @@ module Histrion
     def klasses
 
       @klasses ||=
-        YAML.load_file(find_path(Dir[path('*_classes.yaml')]))
+        Kernel.eval(File.read(find_path(Dir[path('*_classes.rb')])))
           .reject { |c| @minuses.include?(c[:name].downcase) }
     end
 
