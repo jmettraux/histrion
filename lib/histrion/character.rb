@@ -95,7 +95,7 @@ class Histrion::Character < Histrion::Creature
     if s && (@skills[s] || -1) < 0
       inc_skill(s)
     else
-      while grow_any_skill == false; end
+      77.times { break if grow_any_skill }
     end
   end
 
