@@ -59,7 +59,7 @@ AacPickSpells =
       { hp: '8d6+16', attack: 8 },
       { hp: '9d6+18', attack: 9 },
       { hp: '10d6+20', attack: 10, foci: 1 }],
-    weapons: [ 'Spear', [ 'Axe', 'Seax' ], [ 'Bow', nil ] ] },
+    weapons: [ 'Spear', [ 'Axe', 'Seax' ], [ 'Bow', nil ], [ 'Knife', nil ] ] },
 
   { name: 'Expert',
     attribute: nil,
