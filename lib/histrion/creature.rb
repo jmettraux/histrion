@@ -318,7 +318,7 @@ class Histrion::Creature
       mws.each { |w| t << w }
       rws.each { |w| t << w }
 
-      if @spells
+      if @spells && @spells.any?
 
         t << :separator
 
