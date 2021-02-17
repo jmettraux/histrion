@@ -91,6 +91,19 @@ module Histrion
 
     def random_skill
 
+      #plus_skills =
+      #  skills & pluses.collect(&:capitalize)
+      plus_skills = pluses
+        .collect(&:capitalize)
+        .select { |s| skills.include?(s) }
+          #
+          # so that +Sail +Sail indicates that we really want sailors
+
+      return plus_skills
+        .shuffle(random: @rnd)
+        .first \
+          if plus_skills.any?
+
       skills
         .shuffle(random: @rnd)
         .first
