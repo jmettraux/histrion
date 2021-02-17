@@ -99,6 +99,14 @@ class Histrion::Character < Histrion::Creature
     end
   end
 
+  def pick_spells
+
+    return if magic < 0
+
+    @spells ||= []
+    (@kla[:spells] || lambda { |c| })[self]
+  end
+
   def add_nick
 
     @nick =
@@ -126,6 +134,8 @@ class Histrion::Character < Histrion::Creature
     @spare_skill_points = (@spare_skill_points || 0) + 3
 
     consume_skill_points
+
+    pick_spells
   end
 
   protected

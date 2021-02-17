@@ -40,6 +40,8 @@ module Histrion
 
       c.pick_a_skill
 
+      c.pick_spells
+
       c.add_nick if Histrion.roll('1d6') > 2
 
       (opts.random_level - 1)

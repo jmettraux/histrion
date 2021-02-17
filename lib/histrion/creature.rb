@@ -15,7 +15,7 @@ class Histrion::Creature
 
   attr_reader :hp
 
-  attr_reader :skills, :weapons
+  attr_reader :skills, :weapons, :spells
 
   alias str= strength=
   alias con= constitution=
@@ -38,8 +38,6 @@ class Histrion::Creature
   def wis_s; wis < 10 ? " #{wis}" : wis.to_s; end
   def cha_s; cha < 10 ? " #{cha}" : cha.to_s; end
 
-  attr_reader :rnd
-
   def str_mod; mod(:str); end
   def con_mod; mod(:con); end
   def dex_mod; mod(:dex); end
@@ -55,6 +53,8 @@ class Histrion::Creature
   def cha_mod_s; mod_s(:cha); end
 
   def score(k); self.send(k.to_s[0, 3]); end
+
+  def rnd; @opts.rnd; end
 
   def modifiers
     { strength: str_mod, constitution: con_mod, dexterity: dex_mod,
@@ -138,6 +138,8 @@ class Histrion::Creature
   def stab; @skills['Stab'] || -2; end
   def shoot; @skills['Shoot'] || -2; end
   def punch; @skills['Punch'] || -2; end
+
+  def magic; @skills['Magic'] || -1; end
 
   def wp
 
@@ -305,6 +307,27 @@ class Histrion::Creature
         #
       mws.each { |w| t << w }
       rws.each { |w| t << w }
+
+      if @spells
+
+        t << :separator
+
+        spells =
+          ('spells: ' + @spells.collect { |s| s[:name] }.join(', '))
+            .split(/\s/)
+            .inject([ [] ]) { |a, w|
+              ll = a.last.collect(&:length).sum + a.last.length - 1
+              if ll + 1 + w.length < 79
+                a.last << w
+              else
+                a << [ ' ' * 'spells:'.length, w ]
+              end
+              a }
+            .collect { |l| l.join(' ') }
+            .join("\n")
+
+        t << [ { value: spells, colspan: 4 } ]
+      end
     end
   end
 
