@@ -156,19 +156,25 @@ class Histrion::Creature
       m = @skills['Magic']
       magic_skills = m ? [ "#{@opts.lsn('Magic')}-#{m}", nil ] : []
 
-      skills =
+      left_skills =
         [ "#{@opts.lsn('Stab')}-#{stab}",
           "#{@opts.lsn('Shoot')}-#{shoot}",
           "#{@opts.lsn('Punch')}-#{punch}" ]
-          .reject { |e| e.match(/-2/) } +
+            .reject { |e| e.match(/[a-z]--2$/) } +
         [ nil ] +
-        magic_skills +
+        magic_skills
+      right_skills =
         (@skills.keys - @opts.combat_skills - @opts.magic_skills)
           .sort
           .map { |k| "#{@opts.lsn(k)}-#{@skills[k]}" }
-      mxw = @opts.skills.inject(0) { |l, e| [ l, (e || '').size ].max } + 2
-      l2 = (skills.length.to_f * 0.5).ceil
-      sks0, sks1 = skills[0, l2], skills[l2 + 1..-1]
+      skills =
+        left_skills + right_skills
+      mxw =
+        @opts.skills.inject(0) { |l, e| [ l, (e || '').size ].max } + 2
+      l2 =
+        [ left_skills.length, (skills.length.to_f * 0.5).ceil ].max
+      sks0, sks1 =
+        skills[0, l2], skills[l2 + 1..-1]
       skills =
         skills[0, l2].zip(skills[l2..-1])
           .collect { |x| "%-#{mxw}s  %-#{mxw}s" % x }
