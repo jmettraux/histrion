@@ -171,12 +171,14 @@ class Histrion::Creature
         left_skills + right_skills
       mxw =
         @opts.skills.inject(0) { |l, e| [ l, (e || '').size ].max } + 2
+      lmin =
+        magic_skills.any? ? 8 : 7
       l2 =
-        [ left_skills.length, (skills.length.to_f * 0.5).ceil ].max
+        [ lmin, left_skills.length, (skills.length.to_f * 0.5).ceil ].max
       sks0, sks1 =
         skills[0, l2], skills[l2 + 1..-1]
       skills =
-        skills[0, l2].zip(skills[l2..-1])
+        skills[0, l2].zip(skills[l2..-1] || [])
           .collect { |x| "%-#{mxw}s  %-#{mxw}s" % x }
 
       hp_col = []; w = 15
