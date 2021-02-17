@@ -272,11 +272,16 @@ class Histrion::Creature
         #
       weapons.each do |w|
         if w[:attributes].include?('strength')
-          nic = w[:nick][0, nwidth]
-          att = sgn(stab + str_mod + ab)
-          dmg = w[:damage] + str_mod_s
+          nic =
+            w[:nick][0, nwidth]
+          att =
+            sgn(stab + str_mod + ab)
+          dmg =
+            w[:damage].is_a?(Proc) ?
+            w[:damage].call :
+            w[:damage] + str_mod_s
           s, a = w[:shock]
-          sho = "%d%s AC %d" % [ s, sgn(str_mod), a ]
+          sho = s ? "%d%s AC %d" % [ s, sgn(str_mod), a ] : '-'
           v = "%#{nwidth}s  STR  %s  dmg %s  shk %9s" % [
             nic, att, dmg, sho ]
           mws << [ { value: v, colspan: 4 } ]
@@ -293,11 +298,16 @@ class Histrion::Creature
               nic, sgn(att0), r0, sgn(att1), r1, dmg ]
             rws << [ { value: v, colspan: 4 } ]
           else
-            nic = w[:nick][0, nwidth]
-            att = sgn(stab + dex_mod + ab)
-            dmg = w[:damage] + dex_mod_s
+            nic =
+              w[:nick][0, nwidth]
+            att =
+              sgn(stab + dex_mod + ab)
+            dmg =
+              w[:damage].is_a?(Proc) ?
+              w[:damage].call :
+              w[:damage] + dex_mod_s
             s, a = w[:shock]
-            sho = "%d%s AC %d" % [ s, sgn(str_mod), a ]
+            sho = s ? "%d%s AC %d" % [ s, sgn(str_mod), a ] : '-'
             v = "%#{nwidth}s  DEX  %s  dmg %s  shk %9s" % [
               nic, att, dmg, sho ]
             mws << [ { value: v, colspan: 4 } ]
@@ -405,7 +415,23 @@ class Histrion::Creature
 
     @skills[s1] = l + 1
 
+    add_punch_weapon_if_necessary
+
     true
+  end
+
+  def add_punch_weapon_if_necessary
+
+    return if ! @skills['Punch']
+
+    wp = @weapons.find { |w| w[:name] == 'Punch' }
+    return if wp && ! wp[:focus]
+
+    @weapons.reject! { |w| w[:name] == 'Punch' }
+
+    @weapons << {
+      name: 'Punch', nick: 'Punch', damage: lambda { "1d2+#{punch}" },
+      attributes: %w[ strength dexterity ] }
   end
 
   def pick(*as)

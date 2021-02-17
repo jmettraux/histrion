@@ -41,6 +41,10 @@ AacPolymath = AacGrowAnySkill
 AacSpecialist = AacGrowAnySkill
 
 AacWrestler = lambda do |character|
+
+  character.weapons
+    .reject! { |w| w[:name] == 'Punch' }
+
   # The character unarmed Punch attack does a base of 1d6 damage and
   # its Shock is 1 / AC 15. +1 on all grappling skill checks
   character.weapons << {
