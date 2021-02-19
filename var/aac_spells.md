@@ -3,7 +3,7 @@
 
 [CC-BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/legalcode) for now.
 
-28 spells.
+32 spells.
 
 
 ## Amber Arrow
@@ -106,6 +106,20 @@ A lens of pain, inflicting damage upon traversal.
 A shield of pain with (1d6 + skill) * WP "hit points". A creature attempting to cross the shield takes 1d6 damage. Those points are removed from the shield hit points. When the shield reaches zero points, it vanishes.
 
 As a main action, the weaver of the black shield, may consume WPs to "mend" the shield, again (1d6 + skill) * WP.
+
+
+## Blue Crown
+
+* **Casting Time:** main action
+* **Range:** medium (30 feet per WP)
+* **Diameter:** 1 ft per WP
+* **Duration:** 10 min per WP
+* **Move:** 1 WP, 5 ft
+* **Prolong:** within (level * 10ft), 1 WP, 1 min
+
+A ring of cold, keeping things inside cold.
+
+Applied around a creature or part of it may inflict 1d2 + skill damage per round.
 
 
 ## Blue Disk
@@ -259,6 +273,8 @@ Disk of fire.
 
 When the spell ends and its fire hasn't propagated to some flammable elements, the fire ends.
 
+Inflicts 1d4 + skill per round damage points to creatures exposed to it.
+
 
 ## Red Finger
 
@@ -273,6 +289,23 @@ Also known as the weaver lighter.
 Read threads emit a flame at the point of the weaver's finger.
 
 Once the weavery stops, the threads dissolve, the heat disperses.
+
+Might deal 1 + skill damage points to a target.
+
+
+## Red Flail
+
+* **Casting Time:** main action
+* **Range:** short (10 feet per WP)
+* **Diameter:** -
+* **Duration:** 1 rnd
+* **Speed:** 80 ft per WP
+
+Flail of fire.
+
+Inflicts 1d6 + skill damage points. There must a direct way between the weaver and their target. May put the target on fire, at the GM discretion.
+
+Silver threads do stop the red flail.
 
 
 ## Scarlet Arrow
@@ -341,6 +374,22 @@ The weaver throws a ball that pushes anything in its way. Direct damage is not d
 Getting stuck between a silver ball and a thick wall might hurt.
 
 Remember, may not be prolonged if out of prolongation reach.
+
+
+## Silver Crown
+
+* **Casting Time:** main action
+* **Range:** medium (30 feet per WP)
+* **Diameter:** 1 ft per WP
+* **Duration:** 10 min per WP
+* **Move:** 1 WP, 5 ft
+* **Prolong:** within (level * 10ft), 1 WP, 1 min
+
+The silver crown or the slave crown. Used by weavers to bind people.
+
+The caster weaves a ring of silver threads around something. Some pranksters like to tie the feet of two adversaries together.
+
+May also be used to to protect things from impact, but it's a crown or a donut, not a ball.
 
 
 ## Silver Hand
@@ -414,6 +463,22 @@ Mortally wounded creatures in the hut stabilize (as per rules, they reach 1 HP a
 All the creatures touched by the pole gain 1d3 + skill HPs.
 
 The pole does stabilize a Mortally Wounded creature.
+
+
+## White Crown
+
+* **Casting Time:** main action
+* **Range:** medium (30 feet per WP)
+* **Diameter:** 1 ft per WP
+* **Duration:** 10 min per WP
+* **Move:** 1 WP, 5 ft
+* **Prolong:** within (level * 10ft), 1 WP, 1 min
+
+Halo or aureola of light.
+
+A crown of light, some weavers use it to light their tables at night.
+
+By default, it is static. For 1 extra WP, it can me threaded so that it follows something (a head for example).
 
 
 ## White Hand
