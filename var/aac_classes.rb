@@ -41,7 +41,7 @@ AacPickSpells =
       end
     end
 
-    creature.spells.sort_by! { |s| s[:name] }
+    creature.spells.uniq.sort_by! { |s| s[:name] }
   end
 
 [
