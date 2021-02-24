@@ -138,6 +138,14 @@ class Histrion::Character < Histrion::Creature
     pick_spells
   end
 
+  def add_petty_goods
+
+    @goods = []
+
+    [ 0, 1, 1, 1, 2, 2, 3 ].shuffle(random: rnd).first
+      .times { @goods << @opts.random_petty_good }
+  end
+
   protected
 
   def consume_skill_points

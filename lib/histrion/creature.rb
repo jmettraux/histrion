@@ -338,6 +338,15 @@ class Histrion::Creature
 
         t << [ { value: spells, colspan: 4 } ]
       end
+
+      if @goods && @goods.any?
+
+        t << :separator
+
+        goods = "goods:  #{@goods.join(', ')}"[0, 78]
+
+        t << [ { value: goods, colspan: 4 } ]
+      end
     end
   end
 

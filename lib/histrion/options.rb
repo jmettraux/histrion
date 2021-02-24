@@ -177,6 +177,14 @@ module Histrion
       @levels.shuffle(random: @rnd).first
     end
 
+    def random_petty_good
+
+      @petty_goods ||=
+        YAML.load_file(find_path(Dir[path('*_petty_goods.yaml')]))
+
+      @petty_goods.shuffle(random: @rnd).first
+    end
+
     protected
 
     def find_path(paths)

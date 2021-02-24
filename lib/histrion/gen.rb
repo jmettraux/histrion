@@ -47,6 +47,8 @@ module Histrion
       (opts.random_level - 1)
         .times { c.level_up }
 
+      c.add_petty_goods
+
       c
     end
   end
