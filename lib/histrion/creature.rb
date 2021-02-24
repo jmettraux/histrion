@@ -155,15 +155,18 @@ class Histrion::Creature
         border_left: false, border_right: false,
         border_i: '.' }
 
+      combat_skills =
+        [ "#{@opts.lsn('Stab')}-#{stab}",
+          "#{@opts.lsn('Shoot')}-#{shoot}",
+          "#{@opts.lsn('Punch')}-#{punch}" ]
+            .reject { |e| e.match(/[a-z]--2$/) }
+      combat_skills << nil if combat_skills.any?
+
       m = @skills['Magic']
       magic_skills = m ? [ "#{@opts.lsn('Magic')}-#{m}", nil ] : []
 
       left_skills =
-        [ "#{@opts.lsn('Stab')}-#{stab}",
-          "#{@opts.lsn('Shoot')}-#{shoot}",
-          "#{@opts.lsn('Punch')}-#{punch}" ]
-            .reject { |e| e.match(/[a-z]--2$/) } +
-        [ nil ] +
+        combat_skills +
         magic_skills
       right_skills =
         (@skills.keys - @opts.combat_skills - @opts.magic_skills)
@@ -176,7 +179,7 @@ class Histrion::Creature
       lmin =
         magic_skills.any? ? 8 : 7
       l2 =
-        [ lmin, left_skills.length, (skills.length.to_f * 0.5).ceil ].max
+        [ lmin, left_skills.length, (skills.length.to_f * 0.5).floor ].max
       sks0, sks1 =
         skills[0, l2], skills[l2 + 1..-1]
       skills =
