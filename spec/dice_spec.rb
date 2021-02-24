@@ -1,6 +1,6 @@
 
 #
-# Specifying creagen
+# Specifying histrion
 #
 # Sat Jan 30 15:05:05 JST 2021
 #
@@ -8,7 +8,7 @@
 require 'spec_helper'
 
 
-describe Creagen::Dice do
+describe Histrion::Dice do
 
   describe '.parse' do
 
@@ -22,7 +22,7 @@ describe Creagen::Dice do
 
       it "parses #{k.inspect}" do
 
-        expect(Creagen::Dice.parse(k)).to eq(v)
+        expect(Histrion::Dice.parse(k)).to eq(v)
       end
     end
   end
@@ -39,7 +39,7 @@ describe Creagen::Dice do
 
       it "rolls #{k.inspect}" do
 
-        d = Creagen::Dice.new(k)
+        d = Histrion::Dice.new(k)
 
         1_024.times { expect(d.roll).to be_between(a, b) }
       end
