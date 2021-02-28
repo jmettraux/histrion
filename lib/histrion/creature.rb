@@ -11,7 +11,7 @@ class Histrion::Creature
 
   attr_writer :morale
 
-  attr_accessor :appearance
+  attr_accessor :appearance, :goods
 
   attr_reader :hp
 
@@ -80,6 +80,30 @@ class Histrion::Creature
 
     @skills = {}
     @weapons = []
+
+    @goods = []
+  end
+
+  def to_h(opts={})
+
+    h = {
+      gen: 'https://github.com/jmettraux/histrion',
+      type: 'Creature',
+      attributes: {
+        str: self.str, con: self.con, dex: self.dex,
+        int: self.int, wis: self.wis, cha: self.cha },
+      skills: self.skills,
+    }
+    %w[ name morale appearance hp spells ].each do |k|
+      v = self.send(k)
+      h[k] = v unless v.is_a?(Array) && v.empty?
+    end
+    %w[ weapons spells ].each do |k|
+      v = self.send(k)
+      h[k] = v.collect { |e| e[:name] } if v && v.any?
+    end
+
+    opts[:raw] ? h : JSON.parse(JSON.dump(h))
   end
 
   def hd_i

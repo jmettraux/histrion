@@ -7,11 +7,14 @@ module Histrion
 
       opts = Options.new
 
-      opts.count.times do
+      chas = opts.count.times.collect { make_character(opts) }
 
-        puts
-        puts
-        puts make_character(opts).to_table
+      if opts.yaml?
+        puts YAML.dump(opts.single? ? chas.first.to_h : chas.collect(&:to_h))
+      else
+        chas.each do |cha|
+          puts cha.to_table
+        end
       end
     end
 

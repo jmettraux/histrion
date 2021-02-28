@@ -7,24 +7,31 @@ module Histrion
     attr_reader :count, :pluses, :minuses
     attr_reader :foci, :weapons, :classes, :backgrounds, :names
 
+    attr_writer :yaml, :single
+
     def initialize
 
       @rnd = Random.new
 
       @count = 1
+      @single = true
       @pluses = []
       @minuses = []
       @strings = []
       @levels = [ 1 ]
+      @yaml = false
 
       ARGV.each do |a|
         case a
         when /^\d+$/
           @count = a.to_i
+          @single = false
         when /^(\d+)-(\d+)$/
           @levels = ($1.to_i..$2.to_i).to_a
         when /^\+(.+)$/
           @pluses << $1.downcase
+        when '-y', '--yaml'
+          @yaml = true
         when /^-(.+)$/
           @minuses << $1.downcase
         else
@@ -32,6 +39,9 @@ module Histrion
         end
       end
     end
+
+    def yaml?; @yaml; end
+    def single?; @single; end
 
     def skill_map
 

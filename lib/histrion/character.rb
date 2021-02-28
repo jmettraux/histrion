@@ -138,9 +138,27 @@ class Histrion::Character < Histrion::Creature
     pick_spells
   end
 
-  def add_petty_goods
+  def to_h(opts={})
 
-    @goods = []
+    h = super(opts.merge(raw: true))
+
+    h[:class] = @kla[:name]
+    h[:background] = background
+
+    %w[ goods ].each do |k|
+      v = self.send(k)
+      h[k] = v unless v.is_a?(Array) && v.empty?
+    end
+
+    sps = @spare_skill_points; h[:sps] = sps if sps && sps > 0
+
+    h1 = h
+    h1 = h.keys.sort_by(&:to_s).inject({}) { |hh, k| hh[k] = h[k]; hh }
+
+    opts[:raw] ? h1 : JSON.parse(JSON.dump(h1))
+  end
+
+  def add_petty_goods
 
     [ 0, 1, 1, 1, 2, 2, 3 ].shuffle(random: rnd).first
       .times { @goods << @opts.random_petty_good }
