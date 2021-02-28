@@ -1,48 +1,51 @@
 
-AAC_SPELLS =
-  (File.readlines('var/aac_spells.md') rescue [])
-    .inject([]) { |a, l|
-      if m = l.match(/^## (.+)/)
-        n = m[1]
-        c, f = m[1].split(/\s/)
-        a << { name: n, colour: c, form: f }
+unless defined?(AAC_SPELLS)
+
+  AAC_SPELLS =
+    (File.readlines('var/aac_spells.md') rescue [])
+      .inject([]) { |a, l|
+        if m = l.match(/^## (.+)/)
+          n = m[1]
+          c, f = m[1].split(/\s/)
+          a << { name: n, colour: c, form: f }
+        end
+        a }
+  AAC_COLOURS =
+    AAC_SPELLS.collect { |s| s[:colour] }.uniq
+  AAC_FORMS =
+    AAC_SPELLS.collect { |s| s[:form] }.uniq
+
+  AacPickSpells =
+    lambda do |creature|
+
+      2.times do
+
+        if creature.spells.count < 2
+
+          creature.spells <<
+            AAC_SPELLS.shuffle(random: creature.rnd).first
+
+        else
+
+          facets = creature.spells
+            .inject([]) { |a, s| a << s[:colour]; a << s[:form]; a }
+            .uniq
+          facet = facets
+            .shuffle(random: creature.rnd).first
+
+          spells = AAC_SPELLS.shuffle(random: creature.rnd)
+
+          spell = spells
+            .find { |s|
+              ! creature.spells.include?(s) &&
+              (s[:colour] == facet || s[:form] == facet) }
+          creature.spells << spell if spell
+        end
       end
-      a }
-AAC_COLOURS =
-  AAC_SPELLS.collect { |s| s[:colour] }.uniq
-AAC_FORMS =
-  AAC_SPELLS.collect { |s| s[:form] }.uniq
 
-AacPickSpells =
-  lambda do |creature|
-
-    2.times do
-
-      if creature.spells.count < 2
-
-        creature.spells <<
-          AAC_SPELLS.shuffle(random: creature.rnd).first
-
-      else
-
-        facets = creature.spells
-          .inject([]) { |a, s| a << s[:colour]; a << s[:form]; a }
-          .uniq
-        facet = facets
-          .shuffle(random: creature.rnd).first
-
-        spells = AAC_SPELLS.shuffle(random: creature.rnd)
-
-        spell = spells
-          .find { |s|
-            ! creature.spells.include?(s) &&
-            (s[:colour] == facet || s[:form] == facet) }
-        creature.spells << spell if spell
-      end
+      creature.spells.uniq.sort_by! { |s| s[:name] }
     end
-
-    creature.spells.uniq.sort_by! { |s| s[:name] }
-  end
+end
 
 [
   { name: 'Fighter',

@@ -144,6 +144,7 @@ class Histrion::Character < Histrion::Creature
 
     h[:class] = @kla[:name]
     h[:background] = background
+    h[:type] = 'Character'
 
     %w[ goods ].each do |k|
       v = self.send(k)
@@ -156,6 +157,44 @@ class Histrion::Character < Histrion::Creature
     h1 = h.keys.sort_by(&:to_s).inject({}) { |hh, k| hh[k] = h[k]; hh }
 
     opts[:raw] ? h1 : JSON.parse(JSON.dump(h1))
+  end
+
+  class << self
+
+    def from_h(h)
+
+      opts = Histrion::Options.new(h['argv'] || [])
+
+      c = self.allocate
+
+      class << c
+        def _set(a, b)
+          if a.is_a?(Hash) && b.is_a?(Symbol)
+            h, k = a, b
+            instance_variable_set("@#{k}", h[k.to_s])
+          else
+            k, v = a, b
+            instance_variable_set("@#{k}", v)
+          end
+        end
+      end
+
+      h['attributes'].each { |k, v| c.send("#{k}=", v) }
+
+      c._set(:opts, opts)
+      c._set(:kla, opts.klasses.find { |c| c[:name] == h['class'] })
+
+      c._set(h, :hp)
+      c._set(h, :skills)
+      c._set(h, :morale)
+      c._set(h, :foci)
+
+      c._set(:weapons, h['weapons'].collect { |n| opts.weapons[n] })
+
+      c
+    end
+
+    def load(path); from_h(YAML.load_file(path)); end
   end
 
   def add_petty_goods

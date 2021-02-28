@@ -15,7 +15,7 @@ class Histrion::Creature
 
   attr_reader :hp
 
-  attr_reader :skills, :weapons, :spells
+  attr_reader :skills, :foci, :weapons, :spells
 
   alias str= strength=
   alias con= constitution=
@@ -88,13 +88,14 @@ class Histrion::Creature
 
     h = {
       gen: 'https://github.com/jmettraux/histrion',
+      argv: @opts.argv,
       type: 'Creature',
       attributes: {
         str: self.str, con: self.con, dex: self.dex,
         int: self.int, wis: self.wis, cha: self.cha },
       skills: self.skills,
     }
-    %w[ name morale appearance hp spells ].each do |k|
+    %w[ name morale appearance hp foci ].each do |k|
       v = self.send(k)
       h[k] = v unless v.is_a?(Array) && v.empty?
     end
@@ -218,7 +219,9 @@ class Histrion::Creature
       hp_col << ("  %#{w}s" % "AC #{ac}")
       hp_col << ("  %#{w}s" % "shield AC #{shield_ac}")
       hp_col << ("  %-#{w}s" % "Att #{sgn(ab)}")
+      #hp_col << ("  Att #{sgn(ab)}")
       hp_col << ("  %#{w}s" % "Morale #{morale}")
+      hp_col = hp_col.collect(&:rstrip)
         #
         # :-(
 

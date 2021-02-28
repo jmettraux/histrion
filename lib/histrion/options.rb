@@ -9,7 +9,9 @@ module Histrion
 
     attr_writer :yaml, :single
 
-    def initialize
+    attr_reader :argv
+
+    def initialize(argv=ARGV)
 
       @rnd = Random.new
 
@@ -21,7 +23,9 @@ module Histrion
       @levels = [ 1 ]
       @yaml = false
 
-      ARGV.each do |a|
+      @argv = argv
+
+      @argv.each do |a|
         case a
         when /^\d+$/
           @count = a.to_i
