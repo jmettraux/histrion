@@ -39,7 +39,7 @@
   - Trade
   - Know
   - Administer
-  - Talk
+  - Convince
   - Work
 - :name: Noble
   :free: Stab
@@ -61,11 +61,11 @@
   - Lead
   - Ride
   - Stab
-  - Talk
+  - Convince
 - :name: Religious
   :free: Pray
   :quick:
-  - Talk
+  - Convince
   - Know
   :growth:
   - "+1 Any Att"
@@ -81,7 +81,7 @@
   - Know
   - Perform
   - Pray
-  - Talk
+  - Convince
   - Work
 - :name: Slave
   :free: Work
@@ -124,4 +124,4 @@
   - Hunt
   - Notice
   - Sneak
-  - Talk
+  - Convince
